@@ -11,16 +11,20 @@ class WequilEditor extends StatelessWidget {
   final EdgeInsets? padding;
   final Function(String url) onLaunchUrl;
   final DefaultStyles customStyles;
-  final Widget Function(WECustomEmbedData embedData)? attachmentEmbedBuilder;
+  final Widget Function(WECustomEmbedData embedData, Embed node, bool readOnly,
+      bool inline, TextStyle textStyle)? attachmentEmbedBuilder;
+  final List<dynamic> customEmbedBuilders;
 
-  const WequilEditor(
-      {super.key,
-      this.padding,
-      required this.focusNode,
-      required this.onLaunchUrl,
-      required this.customStyles,
-      required this.controller,
-      this.attachmentEmbedBuilder,});
+  const WequilEditor({
+    super.key,
+    this.padding,
+    required this.focusNode,
+    required this.onLaunchUrl,
+    required this.customStyles,
+    required this.controller,
+    this.attachmentEmbedBuilder,
+    this.customEmbedBuilders = const [],
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +47,7 @@ class WequilEditor extends StatelessWidget {
             customStyles: customStyles,
             embedBuilders: [
               WEAttachmentEmbedBuilder(embedBuilder: attachmentEmbedBuilder),
+              ...customEmbedBuilders
             ],
             // embedBuilder: quillEditingEmbedBuilder,
           );

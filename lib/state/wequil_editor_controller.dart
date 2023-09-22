@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:wequil_editor/core/core.dart';
-import 'package:wequil_editor/core/modals/embed_data/we_custom_embed_data.dart';
 import 'package:wequil_editor/utils/editor_functions.dart';
 
 const double _defaultIconSize = 20;
@@ -18,7 +17,7 @@ class WEquilEditorController extends ChangeNotifier {
   WETheme _theme =
       const WETheme(iconTheme: _defaultIconTheme, iconSize: _defaultIconSize);
 
-  ValueNotifier<Set<Attribute>> _selectedAttributes =
+  final ValueNotifier<Set<Attribute>> _selectedAttributes =
       ValueNotifier<Set<Attribute>>({});
 
   bool _hasChanged = false;
@@ -79,7 +78,6 @@ class WEquilEditorController extends ChangeNotifier {
   addAttachmentToEditor(WECustomEmbedData data) {
     WequilEditorFunctions.addAttachmentToEditor(this, data);
   }
-
 
   @override
   void dispose() {

@@ -32,6 +32,18 @@ class WequilEditorFunctions {
     return LinkTextData(text: text, link: link ?? '');
   }
 
+  static addTextElementToEditor(
+      WEquilEditorController controller, String text) {
+    if (text.isNotEmpty) {
+      final index = controller.quillController.selection.baseOffset;
+      final length = controller.quillController.selection.extentOffset - index;
+
+      controller.quillController.replaceText(index, length, text, null);
+
+      controller.quillController.moveCursorToPosition(index + text.length);
+    }
+  }
+
   static addHyperLinkToEditor(
       {required LinkTextData value,
       required WEquilEditorController controller}) {
@@ -56,6 +68,9 @@ class WequilEditorFunctions {
         .formatText(index, value.text.length, LinkAttribute(value.link));
   }
 
+  modifyAttachment(
+      {required String node, required WECustomEmbedData updatedData}) {}
+
   static addAttachmentToEditor(
       WEquilEditorController controller, WECustomEmbedData embedData) {
     if (embedData.url.isNotEmpty) {
@@ -68,6 +83,8 @@ class WequilEditorFunctions {
           BlockEmbed.custom(
               WEAttachmentBlockEmbed(jsonEncode(embedData.toMap()))),
           null);
+      controller.quillController.moveCursorToPosition(index + 1);
+      addTextElementToEditor(controller, "\n");
     }
   }
 }

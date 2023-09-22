@@ -1,3 +1,4 @@
+import 'package:random_string/random_string.dart';
 import 'package:wequil_editor/core/core.dart';
 
 class WECustomEmbedData {
@@ -40,22 +41,31 @@ class WECustomEmbedData {
   static List<String> otherExtensions = ['html', 'css', 'js'];
 
   final String id;
+  final String mediaID;
   final String url;
   final String extension;
   final WEImageAlignment alignment;
   final String? thumbnail;
   final double aspectRatio;
   final String? caption;
+  final SizeMode sizeMode;
+  final Map<String, dynamic> data;
 
-  const WECustomEmbedData({
-    required this.id,
-    required this.url,
-    required this.thumbnail,
-    required this.extension,
-    this.aspectRatio = 16 / 9,
-    required this.alignment,
-    required this.caption,
-  });
+  static String createID() {
+    return "attachment_${randomAlphaNumeric(14)}";
+  }
+
+  const WECustomEmbedData(
+      {required this.id,
+      required this.mediaID,
+      required this.url,
+      this.thumbnail,
+      required this.extension,
+      this.aspectRatio = 16 / 9,
+      required this.alignment,
+      this.sizeMode = SizeMode.normal,
+      this.caption,
+      this.data = const {}});
 
   bool get isImage => photoExtensions.contains(extension);
 
@@ -71,64 +81,82 @@ class WECustomEmbedData {
       other is WECustomEmbedData &&
           runtimeType == other.runtimeType &&
           id == other.id &&
+          mediaID == other.mediaID &&
           url == other.url &&
           thumbnail == other.thumbnail &&
           extension == other.extension &&
           aspectRatio == other.aspectRatio &&
           alignment == other.alignment &&
+          sizeMode == other.sizeMode &&
+          data == other.data &&
           caption == other.caption;
 
   @override
   int get hashCode =>
       id.hashCode ^
+      mediaID.hashCode ^
       url.hashCode ^
       thumbnail.hashCode ^
       extension.hashCode ^
+      sizeMode.hashCode ^
       aspectRatio.hashCode ^
       alignment.hashCode ^
+      data.hashCode ^
       caption.hashCode;
 
   WECustomEmbedData copyWith({
     String? id,
+    String? mediaID,
     String? url,
     String? extension,
     double? aspectRatio,
+    SizeMode? sizeMode,
     WEImageAlignment? alignment,
     String? caption,
+    Map<String, dynamic>? data,
   }) {
     return WECustomEmbedData(
       id: id ?? this.id,
+      mediaID: mediaID ?? this.mediaID,
       url: url ?? this.url,
       thumbnail: thumbnail ?? this.thumbnail,
       extension: extension ?? this.extension,
       aspectRatio: aspectRatio ?? this.aspectRatio,
+      sizeMode: sizeMode ?? this.sizeMode,
       alignment: alignment ?? this.alignment,
       caption: caption ?? this.caption,
+      data: data ?? this.data,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'id': this.id,
+      'mediaID': this.mediaID,
       'url': this.url,
       'thumbnail': this.thumbnail,
       'extension': this.extension,
+      'sizeMode': this.sizeMode.name,
       'aspectRatio': this.aspectRatio,
       'alignment': this.alignment.name,
       'caption': this.caption,
+      'data': this.data,
     };
   }
 
   factory WECustomEmbedData.fromMap(Map<String, dynamic> map) {
     return WECustomEmbedData(
-      id: map['id'] as String,
-      url: map['url'] as String,
-      thumbnail: map['thumbnail'] as String?,
-      extension: map['extension'] as String,
-      aspectRatio: map['aspectRatio'] as double,
-      alignment:
-          WEImageAlignment.values.firstWhere((e) => e.name == map['alignment']),
-      caption: map['caption'] as String?,
-    );
+        id: map['id'] as String,
+        mediaID: map['mediaID'] as String,
+        url: map['url'] as String,
+        thumbnail: map['thumbnail'] as String?,
+        extension: map['extension'] as String,
+        aspectRatio: map['aspectRatio'] as double,
+        sizeMode: SizeMode.values
+            .firstWhere((element) => element.name == map['sizeMode']),
+        alignment: WEImageAlignment.values
+            .firstWhere((e) => e.name == map['alignment']),
+        caption: map['caption'] as String?,
+        data: map['data']);
   }
 }

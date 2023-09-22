@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:wequil_editor/core/core.dart';
-import 'package:wequil_editor/core/modals/embed_data/we_custom_embed_data.dart';
 
 class WEAttachmentEmbedBuilder extends quill.EmbedBuilder {
-  final Widget Function(WECustomEmbedData embedData)? embedBuilder;
+  final Widget Function(WECustomEmbedData embedData, quill.Embed node,
+      bool readOnly, bool inline, TextStyle textStyle)? embedBuilder;
 
   WEAttachmentEmbedBuilder({this.embedBuilder});
 
@@ -19,7 +19,7 @@ class WEAttachmentEmbedBuilder extends quill.EmbedBuilder {
       if (node.value.type == key) {
         final WECustomEmbedData data =
             WECustomEmbedData.fromMap(jsonDecode(node.value.data as String));
-        return embedBuilder?.call(data) ??
+        return embedBuilder?.call(data, node, readOnly, inline, textStyle) ??
             Builder(builder: (context) {
               if (data.isImage) {
                 return _DefaultImageBuilder(data: data);
