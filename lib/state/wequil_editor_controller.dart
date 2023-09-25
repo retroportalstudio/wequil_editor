@@ -21,6 +21,7 @@ class WEquilEditorController extends ChangeNotifier {
       ValueNotifier<Set<Attribute>>({});
 
   bool _hasChanged = false;
+  ValueNotifier<double> fontSize = ValueNotifier<double>(12);
 
   WEquilEditorController() {
     quillController.addListener(() {
@@ -75,8 +76,33 @@ class WEquilEditorController extends ChangeNotifier {
     _selectedAttributes.notifyListeners();
   }
 
-  addAttachmentToEditor(WECustomEmbedData data) {
+  setFontSize(double size) {
+    fontSize.value = size;
+    quillController.formatSelection(Attribute.fromKeyValue('size', size));
+  }
+
+  incrementFontSize() {
+    fontSize.value += 1;
+    quillController
+        .formatSelection(Attribute.fromKeyValue('size', fontSize.value.ceil()));
+  }
+
+  decrementFontSize() {
+    fontSize.value -= 1;
+    quillController.formatSelection(
+        Attribute.fromKeyValue('size', fontSize.value.floor()));
+  }
+
+  addVideoEmbedToEditor(WECustomVideoEmbedData data) {
+    WequilEditorFunctions.addVideoEmbedToEditor(this, data);
+  }
+
+  addAttachmentToEditor(WECustomAttachmentData data) {
     WequilEditorFunctions.addAttachmentToEditor(this, data);
+  }
+
+  modifyEditorAttachment(WECustomAttachmentData data) {
+    WequilEditorFunctions.modifyAttachment(controller: this, updatedData: data);
   }
 
   @override

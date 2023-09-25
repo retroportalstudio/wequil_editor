@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:provider/provider.dart';
 import 'package:wequil_editor/components/components.dart';
-import 'package:wequil_editor/core/modals/embed_data/we_custom_embed_data.dart';
+import 'package:wequil_editor/core/core.dart';
 import 'package:wequil_editor/state/wequil_editor_controller.dart';
 
 class WequilEditor extends StatelessWidget {
@@ -11,8 +11,11 @@ class WequilEditor extends StatelessWidget {
   final EdgeInsets? padding;
   final Function(String url) onLaunchUrl;
   final DefaultStyles customStyles;
-  final Widget Function(WECustomEmbedData embedData, Embed node, bool readOnly,
-      bool inline, TextStyle textStyle)? attachmentEmbedBuilder;
+  final bool readOnly, cursorEnabled;
+  final Widget Function(WECustomAttachmentData embedData, Embed node,
+      bool readOnly, bool inline, TextStyle textStyle)? attachmentEmbedBuilder;
+  final Widget Function(WECustomVideoEmbedData embedData, Embed node,
+      bool readOnly, bool inline, TextStyle textStyle)? videoEmbedBuilder;
   final List<dynamic> customEmbedBuilders;
 
   const WequilEditor({
@@ -23,6 +26,9 @@ class WequilEditor extends StatelessWidget {
     required this.customStyles,
     required this.controller,
     this.attachmentEmbedBuilder,
+    this.videoEmbedBuilder,
+    this.readOnly = false,
+    this.cursorEnabled = true,
     this.customEmbedBuilders = const [],
   });
 
@@ -39,14 +45,16 @@ class WequilEditor extends StatelessWidget {
             scrollable: true,
             focusNode: focusNode,
             autoFocus: false,
-            readOnly: false,
+            readOnly: readOnly,
             placeholder: "Write your post here",
             expands: true,
+            showCursor: cursorEnabled,
             padding: padding ?? EdgeInsets.zero,
             onLaunchUrl: onLaunchUrl,
             customStyles: customStyles,
             embedBuilders: [
-              WEAttachmentEmbedBuilder(embedBuilder: attachmentEmbedBuilder),
+              DefaultWEAttachmentEmbedBuilder(embedBuilder: attachmentEmbedBuilder),
+              DefaultWEVideoEmbedBuilder(embedBuilder: videoEmbedBuilder),
               ...customEmbedBuilders
             ],
             // embedBuilder: quillEditingEmbedBuilder,

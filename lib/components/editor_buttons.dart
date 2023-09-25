@@ -10,12 +10,13 @@ class WEUndoButton extends StatelessWidget {
   final QuillIconTheme? iconTheme;
   final Function()? afterPressed;
 
-  const WEUndoButton({super.key,
-    required this.controller,
-    this.icon,
-    this.iconSize,
-    this.afterPressed,
-    this.iconTheme});
+  const WEUndoButton(
+      {super.key,
+      required this.controller,
+      this.icon,
+      this.iconSize,
+      this.afterPressed,
+      this.iconTheme});
 
   @override
   Widget build(BuildContext context) {
@@ -40,12 +41,13 @@ class WERedoButton extends StatelessWidget {
 
   final Function()? afterPressed;
 
-  const WERedoButton({super.key,
-    required this.controller,
-    this.icon,
-    this.iconSize,
-    this.afterPressed,
-    this.iconTheme});
+  const WERedoButton(
+      {super.key,
+      required this.controller,
+      this.icon,
+      this.iconSize,
+      this.afterPressed,
+      this.iconTheme});
 
   @override
   Widget build(BuildContext context) {
@@ -70,13 +72,14 @@ class WEStyleButton extends StatelessWidget {
   final QuillIconTheme? iconTheme;
   final Function()? afterPressed;
 
-  const WEStyleButton({super.key,
-    required this.controller,
-    required this.icon,
-    this.iconSize,
-    this.iconTheme,
-    this.afterPressed,
-    required this.attribute});
+  const WEStyleButton(
+      {super.key,
+      required this.controller,
+      required this.icon,
+      this.iconSize,
+      this.iconTheme,
+      this.afterPressed,
+      required this.attribute});
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +89,6 @@ class WEStyleButton extends StatelessWidget {
       controller: controller.quillController,
       iconSize: iconSize ?? controller.theme.iconSize,
       iconTheme: iconTheme ?? controller.theme.iconTheme,
-
       afterButtonPressed: () {
         controller.toggleSelectedAttribute(attribute);
         afterPressed?.call();
@@ -103,13 +105,14 @@ class WEListButton extends StatelessWidget {
   final QuillIconTheme? iconTheme;
   final Function()? afterPressed;
 
-  const WEListButton({super.key,
-    required this.type,
-    required this.controller,
-    this.icon,
-    this.iconSize,
-    this.afterPressed,
-    this.iconTheme});
+  const WEListButton(
+      {super.key,
+      required this.type,
+      required this.controller,
+      this.icon,
+      this.iconSize,
+      this.afterPressed,
+      this.iconTheme});
 
   @override
   Widget build(BuildContext context) {
@@ -153,5 +156,30 @@ class WEListButton extends StatelessWidget {
         },
       );
     }
+  }
+}
+
+class WEHeaderStyleButton extends StatelessWidget {
+  final WEquilEditorController controller;
+  final double? iconSize;
+  final QuillIconTheme? iconTheme;
+  final Function()? afterPressed;
+
+  const WEHeaderStyleButton({
+    super.key,
+    required this.controller,
+    this.iconSize,
+    this.iconTheme,
+    this.afterPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SelectHeaderStyleButton(
+      tooltip: "Header Style",
+      controller: controller.quillController,
+      iconSize: iconSize ?? controller.theme.iconSize,
+      iconTheme: iconTheme ?? controller.theme.iconTheme,
+    );
   }
 }

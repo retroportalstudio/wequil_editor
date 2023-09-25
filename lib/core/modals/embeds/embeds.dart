@@ -5,12 +5,7 @@ class WEAttachmentBlockEmbed extends CustomBlockEmbed {
   static const String customType = "we_attachment";
 }
 
-// class WEVideoBlockEmbed extends CustomBlockEmbed {
-//   const WEVideoBlockEmbed(String value) : super(customType, value);
-//   static const String customType = "we_video";
-// }
-//
-// class WEDocumentBlockEmbed extends CustomBlockEmbed {
-//   const WEDocumentBlockEmbed(String value) : super(customType, value);
-//   static const String customType = "we_document";
-// }
+class WEVideoEmbedBlockEmbed extends CustomBlockEmbed {
+  const WEVideoEmbedBlockEmbed(String value) : super(customType, value);
+  static const String customType = "we_video_embed";
+}

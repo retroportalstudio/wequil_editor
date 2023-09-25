@@ -25,12 +25,14 @@ class SizeModeWrapper extends StatelessWidget {
     final Size constraint = MediaQuery.sizeOf(context);
     final Size sizeRatio = getWidthRatioForSizeMode(sizeMode);
     final double widthConstraints = constraint.width * sizeRatio.width;
-    return Container(
-      constraints: BoxConstraints(
-          minWidth: widthConstraints,
-          maxWidth: widthConstraints,
-          maxHeight: constraint.width * sizeRatio.height),
-      child: child,
+    return Center(
+      child: Container(
+        constraints: BoxConstraints(
+            minWidth: widthConstraints,
+            maxWidth: widthConstraints,
+            maxHeight: constraint.width * sizeRatio.height),
+        child: child,
+      ),
     );
   }
 }

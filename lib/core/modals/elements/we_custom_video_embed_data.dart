@@ -1,92 +1,50 @@
 import 'package:random_string/random_string.dart';
 import 'package:wequil_editor/core/core.dart';
+import 'package:wequil_editor/utils/utils.dart';
 
-class WECustomEmbedData {
-  static List<String> photoExtensions = [
-    'jpg',
-    'jpeg',
-    'png',
-    'JPG',
-    'JPEG',
-    'PNG',
-    'gif',
-    'GIF'
-  ];
-  static List<String> videoExtensions = ['mp4', 'MP4', 'mov', 'MOV'];
-  static List<String> audioExtensions = [
-    'mp3',
-    'MP3',
-    'aac',
-    'AAC',
-    'wav',
-    'WAV',
-    "webm",
-    "WEBM"
-  ];
-  static List<String> documentExtensions = [
-    'doc',
-    'docx',
-    'DOCX',
-    'DOC',
-    'pdf',
-    'PDF',
-    'xls',
-    'xlsx',
-    'csv',
-    'XLS',
-    'XLSX',
-    'CSV'
-  ];
-
-  static List<String> otherExtensions = ['html', 'css', 'js'];
-
+class WECustomVideoEmbedData {
   final String id;
-  final String mediaID;
   final String url;
-  final String extension;
-  final WEImageAlignment alignment;
   final String? thumbnail;
   final double aspectRatio;
   final String? caption;
   final SizeMode sizeMode;
   final Map<String, dynamic> data;
+  final String embedSource;
 
   static String createID() {
-    return "attachment_${randomAlphaNumeric(14)}";
+    return "video_embed_${randomAlphaNumeric(14)}";
   }
 
-  const WECustomEmbedData(
+  bool get isYoutube => embedSource == "youtube";
+
+  String? thumbnailUrl() {
+    if(embedSource == "youtube"){
+      return WEEditorHelperFunctions.getThumbnailURLFromYoutubeUrl(url);
+    }
+    return null;
+  }
+
+  const WECustomVideoEmbedData(
       {required this.id,
-      required this.mediaID,
       required this.url,
       this.thumbnail,
-      required this.extension,
       this.aspectRatio = 16 / 9,
-      required this.alignment,
       this.sizeMode = SizeMode.normal,
       this.caption,
+      this.embedSource = "youtube",
       this.data = const {}});
-
-  bool get isImage => photoExtensions.contains(extension);
-
-  bool get isVideo => videoExtensions.contains(extension);
-
-  bool get isDocument => documentExtensions.contains(extension);
-
-  bool get isAudio => audioExtensions.contains(extension);
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is WECustomEmbedData &&
+      other is WECustomVideoEmbedData &&
           runtimeType == other.runtimeType &&
           id == other.id &&
-          mediaID == other.mediaID &&
+          embedSource == other.embedSource &&
           url == other.url &&
           thumbnail == other.thumbnail &&
-          extension == other.extension &&
           aspectRatio == other.aspectRatio &&
-          alignment == other.alignment &&
           sizeMode == other.sizeMode &&
           data == other.data &&
           caption == other.caption;
@@ -94,19 +52,19 @@ class WECustomEmbedData {
   @override
   int get hashCode =>
       id.hashCode ^
-      mediaID.hashCode ^
+      embedSource.hashCode ^
       url.hashCode ^
       thumbnail.hashCode ^
-      extension.hashCode ^
+      embedSource.hashCode ^
       sizeMode.hashCode ^
       aspectRatio.hashCode ^
-      alignment.hashCode ^
       data.hashCode ^
       caption.hashCode;
 
-  WECustomEmbedData copyWith({
+  WECustomVideoEmbedData copyWith({
     String? id,
-    String? mediaID,
+    String? embedSource,
+    String? thumbnail,
     String? url,
     String? extension,
     double? aspectRatio,
@@ -115,15 +73,13 @@ class WECustomEmbedData {
     String? caption,
     Map<String, dynamic>? data,
   }) {
-    return WECustomEmbedData(
+    return WECustomVideoEmbedData(
       id: id ?? this.id,
-      mediaID: mediaID ?? this.mediaID,
+      embedSource: embedSource ?? this.embedSource,
       url: url ?? this.url,
       thumbnail: thumbnail ?? this.thumbnail,
-      extension: extension ?? this.extension,
       aspectRatio: aspectRatio ?? this.aspectRatio,
       sizeMode: sizeMode ?? this.sizeMode,
-      alignment: alignment ?? this.alignment,
       caption: caption ?? this.caption,
       data: data ?? this.data,
     );
@@ -132,30 +88,25 @@ class WECustomEmbedData {
   Map<String, dynamic> toMap() {
     return {
       'id': this.id,
-      'mediaID': this.mediaID,
+      'embedSource': this.embedSource,
       'url': this.url,
       'thumbnail': this.thumbnail,
-      'extension': this.extension,
       'sizeMode': this.sizeMode.name,
       'aspectRatio': this.aspectRatio,
-      'alignment': this.alignment.name,
       'caption': this.caption,
       'data': this.data,
     };
   }
 
-  factory WECustomEmbedData.fromMap(Map<String, dynamic> map) {
-    return WECustomEmbedData(
+  factory WECustomVideoEmbedData.fromMap(Map<String, dynamic> map) {
+    return WECustomVideoEmbedData(
         id: map['id'] as String,
-        mediaID: map['mediaID'] as String,
+        embedSource: map['embedSource'] as String,
         url: map['url'] as String,
         thumbnail: map['thumbnail'] as String?,
-        extension: map['extension'] as String,
         aspectRatio: map['aspectRatio'] as double,
         sizeMode: SizeMode.values
             .firstWhere((element) => element.name == map['sizeMode']),
-        alignment: WEImageAlignment.values
-            .firstWhere((e) => e.name == map['alignment']),
         caption: map['caption'] as String?,
         data: map['data']);
   }

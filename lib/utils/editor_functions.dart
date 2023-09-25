@@ -1,8 +1,7 @@
 import 'dart:convert';
-
+import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:wequil_editor/core/core.dart';
-import 'package:wequil_editor/core/modals/embed_data/we_custom_embed_data.dart';
 import 'package:wequil_editor/state/state.dart';
 import 'package:flutter_quill/src/widgets/link.dart';
 
@@ -68,11 +67,59 @@ class WequilEditorFunctions {
         .formatText(index, value.text.length, LinkAttribute(value.link));
   }
 
-  modifyAttachment(
-      {required String node, required WECustomEmbedData updatedData}) {}
+  static addVideoEmbedToEditor(
+      WEquilEditorController controller, WECustomVideoEmbedData embedData) {
+    if (embedData.url.isNotEmpty) {
+      final index = controller.quillController.selection.baseOffset;
+      final length = controller.quillController.selection.extentOffset - index;
+
+      controller.quillController.replaceText(
+          index,
+          length,
+          BlockEmbed.custom(
+              WEVideoEmbedBlockEmbed(jsonEncode(embedData.toMap()))),
+          null);
+      controller.quillController.moveCursorToPosition(index + 1);
+      addTextElementToEditor(controller, "\n");
+    }
+  }
+
+  static modifyAttachment(
+      {required WEquilEditorController controller,
+      required WECustomAttachmentData updatedData}) {
+    List<dynamic> deltas =
+        controller.quillController.document.toDelta().toJson();
+    int index = deltas.indexWhere((element) {
+      if (element['insert'] is Map) {
+        Map<String, dynamic> data = element['insert'];
+        if (data.containsKey("custom")) {
+          String value = data['custom'];
+          if (value.contains(updatedData.id)) {
+            return true;
+          }
+        }
+      }
+      return false;
+    });
+    if (index != -1) {
+      deltas[index] = {
+        "insert": {
+          "custom": BlockEmbed.custom(
+                  WEAttachmentBlockEmbed(jsonEncode(updatedData.toMap())))
+              .data
+        }
+      };
+      final TextSelection previousSelection =
+          controller.quillController.selection;
+
+      controller.quillController.document
+          .compose(Document.fromJson(deltas).toDelta(), ChangeSource.LOCAL);
+    }
+    // controller.quillController.queryNode(offset)
+  }
 
   static addAttachmentToEditor(
-      WEquilEditorController controller, WECustomEmbedData embedData) {
+      WEquilEditorController controller, WECustomAttachmentData embedData) {
     if (embedData.url.isNotEmpty) {
       final index = controller.quillController.selection.baseOffset;
       final length = controller.quillController.selection.extentOffset - index;

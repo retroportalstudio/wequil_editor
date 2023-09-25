@@ -9,6 +9,7 @@ class WEElementsBottomSheet extends StatelessWidget {
   final WEquilEditorController controller;
   final Function()? onInsertHyperlink;
   final Function()? onInsertMedia;
+  final Function()? onInsertVideoEmbed;
 
   const WEElementsBottomSheet(
       {super.key,
@@ -19,7 +20,8 @@ class WEElementsBottomSheet extends StatelessWidget {
       this.iconSize,
       this.iconColor,
       this.onInsertHyperlink,
-      this.onInsertMedia});
+      this.onInsertMedia,
+      this.onInsertVideoEmbed});
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +77,24 @@ class WEElementsBottomSheet extends StatelessWidget {
                 color: iconColor ?? Colors.black),
             title: Text(
               "Media",
+              style: itemTextStyle ?? textTheme.bodyMedium,
+            ),
+          ),
+          const Divider(
+            height: 1,
+          ),
+          ListTile(
+            dense: true,
+            onTap: () {
+              Navigator.of(context).pop();
+              onInsertVideoEmbed?.call();
+            },
+            contentPadding: EdgeInsets.zero,
+            leading: Icon(Icons.video_library,
+                size: iconSize ?? defaultIconSize,
+                color: iconColor ?? Colors.black),
+            title: Text(
+              "Youtube Embed",
               style: itemTextStyle ?? textTheme.bodyMedium,
             ),
           ),

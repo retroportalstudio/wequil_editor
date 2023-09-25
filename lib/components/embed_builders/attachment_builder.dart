@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:wequil_editor/core/core.dart';
 
-class WEAttachmentEmbedBuilder extends quill.EmbedBuilder {
-  final Widget Function(WECustomEmbedData embedData, quill.Embed node,
+class DefaultWEAttachmentEmbedBuilder extends quill.EmbedBuilder {
+  final Widget Function(WECustomAttachmentData embedData, quill.Embed node,
       bool readOnly, bool inline, TextStyle textStyle)? embedBuilder;
 
-  WEAttachmentEmbedBuilder({this.embedBuilder});
+  DefaultWEAttachmentEmbedBuilder({this.embedBuilder});
 
   @override
   String get key => WEAttachmentBlockEmbed.customType;
@@ -17,8 +17,8 @@ class WEAttachmentEmbedBuilder extends quill.EmbedBuilder {
       quill.Embed node, bool readOnly, bool inline, TextStyle textStyle) {
     try {
       if (node.value.type == key) {
-        final WECustomEmbedData data =
-            WECustomEmbedData.fromMap(jsonDecode(node.value.data as String));
+        final WECustomAttachmentData data =
+            WECustomAttachmentData.fromMap(jsonDecode(node.value.data as String));
         return embedBuilder?.call(data, node, readOnly, inline, textStyle) ??
             Builder(builder: (context) {
               if (data.isImage) {
@@ -42,7 +42,7 @@ class WEAttachmentEmbedBuilder extends quill.EmbedBuilder {
 }
 
 class _DefaultImageBuilder extends StatelessWidget {
-  final WECustomEmbedData data;
+  final WECustomAttachmentData data;
 
   const _DefaultImageBuilder({super.key, required this.data});
 
@@ -55,7 +55,7 @@ class _DefaultImageBuilder extends StatelessWidget {
 }
 
 class _DefaultVideoBuilder extends StatelessWidget {
-  final WECustomEmbedData data;
+  final WECustomAttachmentData data;
 
   const _DefaultVideoBuilder({super.key, required this.data});
 
@@ -71,7 +71,7 @@ class _DefaultVideoBuilder extends StatelessWidget {
 }
 
 class _DefaultDocumentBuilder extends StatelessWidget {
-  final WECustomEmbedData data;
+  final WECustomAttachmentData data;
 
   const _DefaultDocumentBuilder({super.key, required this.data});
 
@@ -87,7 +87,7 @@ class _DefaultDocumentBuilder extends StatelessWidget {
 }
 
 class _DefaultAudioBuilder extends StatelessWidget {
-  final WECustomEmbedData data;
+  final WECustomAttachmentData data;
 
   const _DefaultAudioBuilder({super.key, required this.data});
 
@@ -103,7 +103,7 @@ class _DefaultAudioBuilder extends StatelessWidget {
 }
 
 class _DefaultOtherBuilder extends StatelessWidget {
-  final WECustomEmbedData data;
+  final WECustomAttachmentData data;
 
   const _DefaultOtherBuilder({super.key, required this.data});
 
