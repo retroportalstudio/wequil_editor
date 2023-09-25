@@ -3,9 +3,11 @@ import 'package:wequil_editor/core/core.dart';
 
 class SizeModeWrapper extends StatelessWidget {
   final SizeMode sizeMode;
-  final Widget child;
 
-  const SizeModeWrapper({super.key, required this.sizeMode, required this.child});
+  final Widget Function(BuildContext context, Size size) builder;
+
+  const SizeModeWrapper(
+      {super.key, required this.sizeMode, required this.builder});
 
   Size getWidthRatioForSizeMode(SizeMode mode) {
     switch (mode) {
@@ -31,7 +33,8 @@ class SizeModeWrapper extends StatelessWidget {
             minWidth: widthConstraints,
             maxWidth: widthConstraints,
             maxHeight: constraint.width * sizeRatio.height),
-        child: child,
+        child: builder(context,
+            Size(widthConstraints, constraint.width * sizeRatio.height)),
       ),
     );
   }

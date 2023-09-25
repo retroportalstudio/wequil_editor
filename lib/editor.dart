@@ -53,7 +53,8 @@ class WequilEditor extends StatelessWidget {
             onLaunchUrl: onLaunchUrl,
             customStyles: customStyles,
             embedBuilders: [
-              DefaultWEAttachmentEmbedBuilder(embedBuilder: attachmentEmbedBuilder),
+              DefaultWEAttachmentEmbedBuilder(
+                  embedBuilder: attachmentEmbedBuilder),
               DefaultWEVideoEmbedBuilder(embedBuilder: videoEmbedBuilder),
               ...customEmbedBuilders
             ],

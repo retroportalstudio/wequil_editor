@@ -84,11 +84,52 @@ class WequilEditorFunctions {
     }
   }
 
+  static modifyEmbed(
+      {required WEquilEditorController controller,
+      required WECustomVideoEmbedData updatedData}) {
+    List<dynamic> deltas =
+        controller.quillController.document.toDelta().toJson();
+
+    int index = deltas.indexWhere((element) {
+      if (element['insert'] is Map) {
+        Map<String, dynamic> data = element['insert'];
+        if (data.containsKey("custom")) {
+          String value = data['custom'];
+          if (value.contains(updatedData.id)) {
+            return true;
+          }
+        }
+      }
+      return false;
+    });
+    if (index != -1) {
+      deltas[index] = {
+        "insert": {
+          "custom": BlockEmbed.custom(
+                  WEVideoEmbedBlockEmbed(jsonEncode(updatedData.toMap())))
+              .data
+        }
+      };
+
+      int cursorPosition = controller.quillController.selection.baseOffset;
+
+      controller.quillController.clear();
+
+      controller.quillController.document
+          .compose(Document.fromJson(deltas).toDelta(), ChangeSource.LOCAL);
+      Future.delayed(const Duration(milliseconds: 200)).then((value) {
+        controller.quillController.moveCursorToPosition(cursorPosition);
+      });
+    }
+    // controller.quillController.queryNode(offset)
+  }
+
   static modifyAttachment(
       {required WEquilEditorController controller,
       required WECustomAttachmentData updatedData}) {
     List<dynamic> deltas =
         controller.quillController.document.toDelta().toJson();
+
     int index = deltas.indexWhere((element) {
       if (element['insert'] is Map) {
         Map<String, dynamic> data = element['insert'];
@@ -109,11 +150,16 @@ class WequilEditorFunctions {
               .data
         }
       };
-      final TextSelection previousSelection =
-          controller.quillController.selection;
+
+      int cursorPosition = controller.quillController.selection.baseOffset;
+
+      controller.quillController.clear();
 
       controller.quillController.document
           .compose(Document.fromJson(deltas).toDelta(), ChangeSource.LOCAL);
+      Future.delayed(Duration(milliseconds: 100)).then((value) {
+        controller.quillController.moveCursorToPosition(cursorPosition);
+      });
     }
     // controller.quillController.queryNode(offset)
   }

@@ -24,13 +24,15 @@ class DefaultWEVideoEmbedBuilder extends quill.EmbedBuilder {
         return embedBuilder?.call(data, node, readOnly, inline, textStyle) ??
             SizeModeWrapper(
               sizeMode: data.sizeMode,
-              child: AspectRatio(
-                aspectRatio: data.aspectRatio,
-                child: Container(
-                    color: Colors.grey.shade300,
-                    child: const Center(
-                        child: Text("Video Embed Implementation"))),
-              ),
+              builder: (BuildContext context, Size size) {
+                return AspectRatio(
+                  aspectRatio: data.aspectRatio,
+                  child: Container(
+                      color: Colors.grey.shade300,
+                      child: const Center(
+                          child: Text("Video Embed Implementation"))),
+                );
+              },
             );
       }
     } catch (e) {

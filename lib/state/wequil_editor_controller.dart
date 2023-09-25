@@ -97,6 +97,10 @@ class WEquilEditorController extends ChangeNotifier {
     WequilEditorFunctions.addVideoEmbedToEditor(this, data);
   }
 
+  modifyVideoEmbedInEditor(WECustomVideoEmbedData data) {
+    WequilEditorFunctions.modifyEmbed(controller: this, updatedData: data);
+  }
+
   addAttachmentToEditor(WECustomAttachmentData data) {
     WequilEditorFunctions.addAttachmentToEditor(this, data);
   }
