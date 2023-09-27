@@ -5,7 +5,7 @@ import 'package:wequil_editor/components/components.dart';
 import 'package:wequil_editor/core/core.dart';
 
 class WequilEditorPreview extends StatefulWidget {
-  final EdgeInsets? padding;
+  final EdgeInsets padding;
   final Function(String url) onLaunchUrl;
   final List<dynamic> delta;
   final TextStyle? textStyle;
@@ -19,7 +19,7 @@ class WequilEditorPreview extends StatefulWidget {
 
   const WequilEditorPreview({
     super.key,
-    this.padding,
+    this.padding = EdgeInsets.zero,
     required this.onLaunchUrl,
     this.attachmentEmbedBuilder,
     this.videoEmbedBuilder,
@@ -85,13 +85,15 @@ class _WequilEditorPreviewState extends State<WequilEditorPreview> {
       scrollController: _scrollController,
       autoFocus: false,
       scrollable: true,
+
       focusNode: _focusNode,
-      padding: EdgeInsets.zero,
+      padding: widget.padding,
       showCursor: false,
       onLaunchUrl: widget.onLaunchUrl,
       customStyles: widget.customStyle,
       embedBuilders: [
-        DefaultWEAttachmentEmbedBuilder(embedBuilder: widget.attachmentEmbedBuilder),
+        DefaultWEAttachmentEmbedBuilder(
+            embedBuilder: widget.attachmentEmbedBuilder),
         DefaultWEVideoEmbedBuilder(embedBuilder: widget.videoEmbedBuilder),
         ...widget.customEmbedBuilders
       ],
