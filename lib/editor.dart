@@ -9,6 +9,7 @@ class WequilEditor extends StatelessWidget {
   final WEquilEditorController controller;
   final FocusNode focusNode;
   final EdgeInsets? padding;
+  final bool autoFocus;
   final Function(String url) onLaunchUrl;
   final DefaultStyles customStyles;
   final bool readOnly, cursorEnabled;
@@ -25,6 +26,7 @@ class WequilEditor extends StatelessWidget {
     required this.onLaunchUrl,
     required this.customStyles,
     required this.controller,
+    this.autoFocus = true,
     this.attachmentEmbedBuilder,
     this.videoEmbedBuilder,
     this.readOnly = false,
@@ -44,11 +46,11 @@ class WequilEditor extends StatelessWidget {
             scrollController: controller.scrollController,
             scrollable: true,
             focusNode: focusNode,
-            autoFocus: false,
-            readOnly: readOnly,
+            autoFocus: autoFocus,
+            readOnly: readOnly || !controller.allowCursor,
             placeholder: "Write your post here",
             expands: true,
-            showCursor: cursorEnabled,
+            showCursor: cursorEnabled && controller.allowCursor,
             padding: padding ?? EdgeInsets.zero,
             onLaunchUrl: onLaunchUrl,
             customStyles: customStyles,

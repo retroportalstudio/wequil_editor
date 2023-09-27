@@ -183,3 +183,98 @@ class WEHeaderStyleButton extends StatelessWidget {
     );
   }
 }
+
+class WEFontSizeButton extends StatelessWidget {
+  final WEquilEditorController controller;
+  final double? iconSize;
+  final QuillIconTheme? iconTheme;
+  final Function()? afterPressed;
+  final Function(dynamic)? onSelected;
+
+  const WEFontSizeButton(
+      {super.key,
+      required this.controller,
+      this.iconSize,
+      this.iconTheme,
+      this.onSelected,
+      this.afterPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return QuillFontSizeButton(
+      controller: controller.quillController,
+      iconSize: iconSize ?? controller.theme.iconSize,
+      iconTheme: iconTheme ?? controller.theme.iconTheme,
+      tooltip: "Font Size",
+      attribute: Attribute.size,
+      onSelected: onSelected,
+      rawItemsMap: const {
+        'Small': 'small',
+        'Large': 'large',
+        'Huge': 'huge',
+        'Clear': '0'
+      },
+      afterButtonPressed: afterPressed,
+    );
+  }
+}
+
+class WEFontColorButton extends StatelessWidget {
+  final WEquilEditorController controller;
+  final double? iconSize;
+  final QuillIconTheme? iconTheme;
+  final Function()? afterPressed;
+  final bool forBackground;
+
+  const WEFontColorButton(
+      {super.key,
+      required this.controller,
+      this.iconSize,
+      this.iconTheme,
+      required this.forBackground,
+      this.afterPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return ColorButton(
+      controller: controller.quillController,
+      iconSize: iconSize ?? controller.theme.iconSize,
+      iconTheme: iconTheme ?? controller.theme.iconTheme,
+      tooltip: forBackground ? "Background Color" : "Text Color",
+      background: forBackground,
+      afterButtonPressed: afterPressed,
+      icon: Icons.color_lens,
+    );
+  }
+}
+
+class WEIndentButton extends StatelessWidget {
+  final WEquilEditorController controller;
+  final double? iconSize;
+  final QuillIconTheme? iconTheme;
+  final Function()? afterPressed;
+  final bool increase;
+
+  const WEIndentButton(
+      {super.key,
+      required this.controller,
+      this.iconSize,
+      this.iconTheme,
+      required this.increase,
+      this.afterPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return IndentButton(
+      controller: controller.quillController,
+      iconSize: iconSize ?? controller.theme.iconSize,
+      iconTheme: iconTheme ?? controller.theme.iconTheme,
+      tooltip: "${increase ? "Increase" : "Decrease"} Indent",
+      isIncrease: increase,
+      icon: increase
+          ? Icons.format_indent_increase_outlined
+          : Icons.format_indent_decrease_rounded,
+      afterButtonPressed: afterPressed,
+    );
+  }
+}

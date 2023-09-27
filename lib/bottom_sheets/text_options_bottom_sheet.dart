@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:wequil_editor/components/components.dart';
 import 'package:wequil_editor/state/state.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:wequil_editor/utils/editor_functions.dart';
+import 'package:wequil_editor/utils/helper_functions.dart';
 
 class WETextOptionsBottomSheet extends StatefulWidget {
   final String title;
   final TextStyle? titleTextStyle, itemTextStyle;
+  final TextTheme? textTheme;
   final double? iconSize;
   final Color? iconColor;
   final WEquilEditorController controller;
@@ -13,6 +16,7 @@ class WETextOptionsBottomSheet extends StatefulWidget {
   const WETextOptionsBottomSheet({
     super.key,
     required this.controller,
+    this.textTheme,
     this.title = "Insert",
     this.titleTextStyle,
     this.itemTextStyle,
@@ -37,39 +41,44 @@ class _WETextOptionsBottomSheetState extends State<WETextOptionsBottomSheet>
 
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
+    final TextTheme textTheme = widget.textTheme ?? Theme
+        .of(context)
+        .textTheme;
     const double defaultIconSize = 20;
-
+    final TextStyle? titleText = textTheme.titleMedium
+        ?.copyWith(color: Colors.black, fontWeight: FontWeight.bold);
     return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TabBar(controller: tabController, tabs: [
-            Tab(
-              child: Text(
-                "Text",
-                style: textTheme.titleLarge,
-              ),
-            ),
-            Tab(
-              child: Text(
-                "Paragraph",
-                style: textTheme.titleLarge,
-              ),
-            )
-          ]),
-          Expanded(
-              child: TabBarView(controller: tabController, children: [
-            _TextOptions(
-              controller: widget.controller,
-            ),
-            _ParagraphOptions(
-              controller: widget.controller,
-            )
-          ]))
-        ],
-      ),
+        padding: const EdgeInsets.all(20),
+        child: _TextOptions(controller: widget.controller)
+
+      // Column(
+      //   mainAxisSize: MainAxisSize.min,
+      //   children: [
+      //     TabBar(controller: tabController, tabs: [
+      //       Tab(
+      //         child: Text(
+      //           "Text",
+      //           style: titleText,
+      //         ),
+      //       ),
+      //       Tab(
+      //         child: Text(
+      //           "Paragraph",
+      //           style: titleText,
+      //         ),
+      //       )
+      //     ]),
+      //     Expanded(
+      //         child: TabBarView(controller: tabController, children: [
+      //       _TextOptions(
+      //         controller: widget.controller,
+      //       ),
+      //       _ParagraphOptions(
+      //         controller: widget.controller,
+      //       )
+      //     ]))
+      //   ],
+      // ),
     );
   }
 }
@@ -81,9 +90,14 @@ class _TextOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
-    const double iconSize = 25;
+    final TextTheme textTheme = Theme
+        .of(context)
+        .textTheme;
+    final TextStyle? titleText = textTheme.titleMedium
+        ?.copyWith(color: Colors.black, fontWeight: FontWeight.bold);
+    const double iconSize = 20;
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         const SizedBox(
           height: 10,
@@ -127,9 +141,10 @@ class _TextOptions extends StatelessWidget {
           height: 4,
         ),
         ListTile(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 0),
           title: Text(
             "Style",
-            style: textTheme.titleLarge,
+            style: titleText,
           ),
           trailing: WEHeaderStyleButton(
             controller: controller,
@@ -140,53 +155,79 @@ class _TextOptions extends StatelessWidget {
           height: 4,
         ),
         ListTile(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 0),
           title: Text(
-            "Size",
-            style: textTheme.titleLarge,
+            "Font Size",
+            style: titleText,
           ),
-          trailing: SizedBox(
-            width: 150,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                InkWell(
-                    onTap: controller.decrementFontSize,
-                    child: const Icon(Icons.arrow_drop_down, size: 50)),
-                ValueListenableBuilder<double>(
-                    valueListenable: controller.fontSize,
-                    builder: (context, fontSize, _) {
-                      return Text(
-                        "$fontSize",
-                        style: textTheme.titleLarge,
-                      );
-                    }),
-                InkWell(
-                    onTap: controller.incrementFontSize,
-                    child: const Icon(Icons.arrow_drop_up, size: 50)),
-              ],
-            ),
+          trailing: WEFontSizeButton(
+            controller: controller,
+            onSelected: (value) {
+              Navigator.of(context).pop();
+            },
           ),
         ),
         const Divider(
           height: 4,
+        ),
+        ListTile(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 0),
+          title: Text(
+            "Font Color",
+            style: titleText,
+          ),
+          trailing: WEFontColorButton(
+            forBackground: false,
+            controller: controller,
+          ),
+        ),
+        const Divider(
+          height: 4,
+        ),
+        ListTile(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 0),
+          title: Text(
+            "Highlight Color",
+            style: titleText,
+          ),
+          trailing: WEFontColorButton(
+            forBackground: true,
+            controller: controller,
+          ),
+        ),
+        const Divider(
+          height: 4,
+        ),
+        ListTile(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 0),
+          onTap: () {
+            WequilEditorFunctions.clearFormattingForSelection(controller);
+            Navigator.of(context).pop();
+          },
+          title: Text(
+            "Clear Formatting",
+            style: titleText,
+          ),
         ),
       ],
     );
   }
 }
 
-class _ParagraphOptions extends StatefulWidget {
+class _ParagraphOptions extends StatelessWidget {
   final WEquilEditorController controller;
 
   const _ParagraphOptions({super.key, required this.controller});
 
   @override
-  State<_ParagraphOptions> createState() => _ParagraphOptionsState();
-}
-
-class _ParagraphOptionsState extends State<_ParagraphOptions> {
-  @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    const double iconSize = 20;
+    return Column(
+      children: [
+        const SizedBox(
+          height: 10,
+        ),
+      ],
+    );
   }
 }

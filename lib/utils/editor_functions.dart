@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:wequil_editor/core/core.dart';
 import 'package:wequil_editor/state/state.dart';
@@ -29,6 +28,18 @@ class WequilEditorFunctions {
         ? ''
         : controller.quillController.document.getPlainText(index, len);
     return LinkTextData(text: text, link: link ?? '');
+  }
+
+  static clearFormattingForSelection(WEquilEditorController controller) {
+    final attrs = <Attribute>{};
+    for (final style in controller.quillController.getAllSelectionStyles()) {
+      for (final attr in style.attributes.values) {
+        attrs.add(attr);
+      }
+    }
+    for (final attr in attrs) {
+      controller.quillController.formatSelection(Attribute.clone(attr, null));
+    }
   }
 
   static addTextElementToEditor(
@@ -151,13 +162,13 @@ class WequilEditorFunctions {
         }
       };
 
-      int cursorPosition = controller.quillController.selection.baseOffset;
+      int cursorPosition = controller.quillController.selection.start;
 
       controller.quillController.clear();
 
       controller.quillController.document
           .compose(Document.fromJson(deltas).toDelta(), ChangeSource.LOCAL);
-      Future.delayed(Duration(milliseconds: 100)).then((value) {
+      Future.delayed(const Duration(milliseconds: 100)).then((value) {
         controller.quillController.moveCursorToPosition(cursorPosition);
       });
     }

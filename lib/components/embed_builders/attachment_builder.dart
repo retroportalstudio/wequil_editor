@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:provider/provider.dart';
 import 'package:wequil_editor/core/core.dart';
+import 'package:wequil_editor/state/state.dart';
 
 class DefaultWEAttachmentEmbedBuilder extends quill.EmbedBuilder {
   final Widget Function(WECustomAttachmentData embedData, quill.Embed node,
@@ -17,8 +19,8 @@ class DefaultWEAttachmentEmbedBuilder extends quill.EmbedBuilder {
       quill.Embed node, bool readOnly, bool inline, TextStyle textStyle) {
     try {
       if (node.value.type == key) {
-        final WECustomAttachmentData data =
-            WECustomAttachmentData.fromMap(jsonDecode(node.value.data as String));
+        final WECustomAttachmentData data = WECustomAttachmentData.fromMap(
+            jsonDecode(node.value.data as String));
         return embedBuilder?.call(data, node, readOnly, inline, textStyle) ??
             Builder(builder: (context) {
               if (data.isImage) {

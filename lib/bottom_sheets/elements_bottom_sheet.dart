@@ -11,21 +11,22 @@ class WEElementsBottomSheet extends StatelessWidget {
   final Function()? onInsertMedia;
   final Function()? onInsertVideoEmbed;
 
-  const WEElementsBottomSheet(
-      {super.key,
-      required this.controller,
-      this.title = "Insert",
-      this.titleTextStyle,
-      this.itemTextStyle,
-      this.iconSize,
-      this.iconColor,
-      this.onInsertHyperlink,
-      this.onInsertMedia,
-      this.onInsertVideoEmbed});
+  const WEElementsBottomSheet({super.key,
+    required this.controller,
+    this.title = "Insert",
+    this.titleTextStyle,
+    this.itemTextStyle,
+    this.iconSize,
+    this.iconColor,
+    this.onInsertHyperlink,
+    this.onInsertMedia,
+    this.onInsertVideoEmbed});
 
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
+    final TextTheme textTheme = Theme
+        .of(context)
+        .textTheme;
     const double defaultIconSize = 20;
 
     return Padding(

@@ -55,16 +55,17 @@ class WECustomAttachmentData {
     return "attachment_${randomAlphaNumeric(14)}";
   }
 
-  const WECustomAttachmentData({required this.id,
-    required this.mediaID,
-    required this.url,
-    this.thumbnail,
-    required this.extension,
-    this.aspectRatio = 16 / 9,
-    required this.alignment,
-    this.sizeMode = SizeMode.normal,
-    this.caption,
-    this.data = const {}});
+  const WECustomAttachmentData(
+      {required this.id,
+      required this.mediaID,
+      required this.url,
+      this.thumbnail,
+      required this.extension,
+      this.aspectRatio = 16 / 9,
+      required this.alignment,
+      this.sizeMode = SizeMode.normal,
+      this.caption,
+      this.data = const {}});
 
   bool get isImage => photoExtensions.contains(extension);
 
@@ -77,18 +78,18 @@ class WECustomAttachmentData {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is WECustomAttachmentData &&
-              runtimeType == other.runtimeType &&
-              id == other.id &&
-              mediaID == other.mediaID &&
-              url == other.url &&
-              thumbnail == other.thumbnail &&
-              extension == other.extension &&
-              aspectRatio == other.aspectRatio &&
-              alignment == other.alignment &&
-              sizeMode == other.sizeMode &&
-              data == other.data &&
-              caption == other.caption;
+      other is WECustomAttachmentData &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          mediaID == other.mediaID &&
+          url == other.url &&
+          thumbnail == other.thumbnail &&
+          extension == other.extension &&
+          aspectRatio == other.aspectRatio &&
+          alignment == other.alignment &&
+          sizeMode == other.sizeMode &&
+          data == other.data &&
+          caption == other.caption;
 
   @override
   int get hashCode =>

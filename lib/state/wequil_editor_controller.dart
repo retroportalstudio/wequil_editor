@@ -20,6 +20,7 @@ class WEquilEditorController extends ChangeNotifier {
   final ValueNotifier<Set<Attribute>> _selectedAttributes =
       ValueNotifier<Set<Attribute>>({});
 
+  bool _allowCursor = true;
   bool _hasChanged = false;
   ValueNotifier<double> fontSize = ValueNotifier<double>(12);
 
@@ -39,6 +40,8 @@ class WEquilEditorController extends ChangeNotifier {
       _selectedAttributes;
 
   Set<Attribute<dynamic>> get selectedAttributes => _selectedAttributes.value;
+
+  bool get allowCursor => _allowCursor;
 
   bool get isEmpty => quillController.document.isEmpty();
 
@@ -107,6 +110,21 @@ class WEquilEditorController extends ChangeNotifier {
 
   modifyEditorAttachment(WECustomAttachmentData data) {
     WequilEditorFunctions.modifyAttachment(controller: this, updatedData: data);
+  }
+
+  scrollToCursorPosition() {
+    int cursorPosition = quillController.selection.end;
+    quillController.moveCursorToPosition(cursorPosition);
+  }
+
+  disableCursor() {
+    _allowCursor = false;
+    notifyListeners();
+  }
+
+  enableCursor() {
+    _allowCursor = true;
+    notifyListeners();
   }
 
   @override
