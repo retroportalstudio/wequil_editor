@@ -15,10 +15,10 @@ class WEquilEditorController extends ChangeNotifier {
   final ScrollController _scrollController = ScrollController();
 
   WETheme _theme =
-      const WETheme(iconTheme: _defaultIconTheme, iconSize: _defaultIconSize);
+  const WETheme(iconTheme: _defaultIconTheme, iconSize: _defaultIconSize);
 
   final ValueNotifier<Set<Attribute>> _selectedAttributes =
-      ValueNotifier<Set<Attribute>>({});
+  ValueNotifier<Set<Attribute>>({});
 
   bool _allowCursor = true;
   bool _hasChanged = false;
@@ -53,8 +53,10 @@ class WEquilEditorController extends ChangeNotifier {
 
   setContent(Map<String, dynamic>? content) {
     if (content != null && content['delta'] != null) {
+      final Delta delta = Document.fromJson(content['delta']).toDelta();
+      delta.trim();
       quillController.compose(
-        Document.fromJson(content['delta']).toDelta(),
+        delta,
         const TextSelection(baseOffset: 0, extentOffset: 0),
         ChangeSource.LOCAL,
       );
