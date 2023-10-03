@@ -17,7 +17,9 @@ class WequilEditorFunctions {
     if (link != null) {
       // text should be the link's corresponding text, not selection
       final leaf =
-          controller.quillController.document.querySegmentLeafNode(index).leaf;
+          controller.quillController.document
+              .querySegmentLeafNode(index)
+              .leaf;
       if (leaf != null) {
         text = leaf.toPlainText();
       }
@@ -42,8 +44,8 @@ class WequilEditorFunctions {
     }
   }
 
-  static addTextElementToEditor(
-      WEquilEditorController controller, String text) {
+  static addTextElementToEditor(WEquilEditorController controller,
+      String text) {
     if (text.isNotEmpty) {
       final index = controller.quillController.selection.baseOffset;
       final length = controller.quillController.selection.extentOffset - index;
@@ -54,19 +56,20 @@ class WequilEditorFunctions {
     }
   }
 
-  static addHyperLinkToEditor(
-      {required LinkTextData value,
-      required WEquilEditorController controller}) {
+  static addHyperLinkToEditor({required LinkTextData value,
+    required WEquilEditorController controller}) {
     var index = controller.quillController.selection.start;
     var length = controller.quillController.selection.end - index;
     if (controller.quillController
-            .getSelectionStyle()
-            .attributes[Attribute.link.key]
-            ?.value !=
+        .getSelectionStyle()
+        .attributes[Attribute.link.key]
+        ?.value !=
         null) {
       // text should be the link's corresponding text, not selection
       final leaf =
-          controller.quillController.document.querySegmentLeafNode(index).leaf;
+          controller.quillController.document
+              .querySegmentLeafNode(index)
+              .leaf;
       if (leaf != null) {
         final range = getLinkRange(leaf);
         index = range.start;
@@ -78,8 +81,8 @@ class WequilEditorFunctions {
         .formatText(index, value.text.length, LinkAttribute(value.link));
   }
 
-  static addVideoEmbedToEditor(
-      WEquilEditorController controller, WECustomVideoEmbedData embedData) {
+  static addVideoEmbedToEditor(WEquilEditorController controller,
+      WECustomVideoEmbedData embedData) {
     if (embedData.url.isNotEmpty) {
       final index = controller.quillController.selection.baseOffset;
       final length = controller.quillController.selection.extentOffset - index;
@@ -95,11 +98,10 @@ class WequilEditorFunctions {
     }
   }
 
-  static modifyEmbed(
-      {required WEquilEditorController controller,
-      required WECustomVideoEmbedData updatedData}) {
+  static modifyEmbed({required WEquilEditorController controller,
+    required WECustomVideoEmbedData updatedData}) {
     List<dynamic> deltas =
-        controller.quillController.document.toDelta().toJson();
+    controller.quillController.document.toDelta().toJson();
 
     int index = deltas.indexWhere((element) {
       if (element['insert'] is Map) {
@@ -116,8 +118,9 @@ class WequilEditorFunctions {
     if (index != -1) {
       deltas[index] = {
         "insert": {
-          "custom": BlockEmbed.custom(
-                  WEVideoEmbedBlockEmbed(jsonEncode(updatedData.toMap())))
+          "custom": BlockEmbed
+              .custom(
+              WEVideoEmbedBlockEmbed(jsonEncode(updatedData.toMap())))
               .data
         }
       };
@@ -135,11 +138,10 @@ class WequilEditorFunctions {
     // controller.quillController.queryNode(offset)
   }
 
-  static modifyAttachment(
-      {required WEquilEditorController controller,
-      required WECustomAttachmentData updatedData}) {
+  static modifyAttachment({required WEquilEditorController controller,
+    required WECustomAttachmentData updatedData}) {
     List<dynamic> deltas =
-        controller.quillController.document.toDelta().toJson();
+    controller.quillController.document.toDelta().toJson();
 
     int index = deltas.indexWhere((element) {
       if (element['insert'] is Map) {
@@ -156,8 +158,9 @@ class WequilEditorFunctions {
     if (index != -1) {
       deltas[index] = {
         "insert": {
-          "custom": BlockEmbed.custom(
-                  WEAttachmentBlockEmbed(jsonEncode(updatedData.toMap())))
+          "custom": BlockEmbed
+              .custom(
+              WEAttachmentBlockEmbed(jsonEncode(updatedData.toMap())))
               .data
         }
       };
@@ -175,8 +178,8 @@ class WequilEditorFunctions {
     // controller.quillController.queryNode(offset)
   }
 
-  static addAttachmentToEditor(
-      WEquilEditorController controller, WECustomAttachmentData embedData) {
+  static addAttachmentToEditor(WEquilEditorController controller,
+      WECustomAttachmentData embedData) {
     if (embedData.url.isNotEmpty) {
       final index = controller.quillController.selection.baseOffset;
       final length = controller.quillController.selection.extentOffset - index;
