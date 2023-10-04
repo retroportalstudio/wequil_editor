@@ -53,7 +53,7 @@ class WEquilEditorController extends ChangeNotifier {
 
   setContent(Map<String, dynamic>? content) {
     if (content != null && content['delta'] != null) {
-      final Delta delta = Document.fromJson(content['delta']).toDelta();
+      Delta delta = Document.fromJson(content['delta']).toDelta();
       delta.trim();
       quillController.compose(
         delta,

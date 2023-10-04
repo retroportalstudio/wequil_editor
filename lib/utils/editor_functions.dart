@@ -128,9 +128,7 @@ class WequilEditorFunctions {
 
       controller.quillController.document
           .compose(Document.fromJson(deltas).toDelta(), ChangeSource.LOCAL);
-      Future.delayed(const Duration(milliseconds: 200)).then((value) {
-        controller.quillController.moveCursorToPosition(cursorPosition);
-      });
+      controller.quillController.moveCursorToPosition(cursorPosition);
     }
     // controller.quillController.queryNode(offset)
   }
@@ -168,9 +166,7 @@ class WequilEditorFunctions {
 
       controller.quillController.document
           .compose(Document.fromJson(deltas).toDelta(), ChangeSource.LOCAL);
-      Future.delayed(const Duration(milliseconds: 100)).then((value) {
-        controller.quillController.moveCursorToPosition(cursorPosition);
-      });
+      controller.quillController.moveCursorToPosition(cursorPosition);
     }
     // controller.quillController.queryNode(offset)
   }
