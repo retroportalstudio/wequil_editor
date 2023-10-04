@@ -11,14 +11,20 @@ class SizeModeWrapper extends StatelessWidget {
 
   Size getWidthRatioForSizeMode(SizeMode mode) {
     switch (mode) {
+      case SizeMode.mini:
+        return const Size(0.2, 0.2);
+      case SizeMode.tiny:
+        return const Size(0.4, 0.4);
       case SizeMode.small:
         return const Size(0.6, 0.6);
       case SizeMode.normal:
-        return const Size(0.7, 1.0);
+        return const Size(0.7, 0.7);
       case SizeMode.large:
-        return const Size(0.8, 1.2);
+        return const Size(0.8, 0.8);
+      case SizeMode.huge:
+        return const Size(0.9, 1.0);
       case SizeMode.massive:
-        return const Size(1.0, 1.4);
+        return const Size(1.0, 1.2);
     }
   }
 

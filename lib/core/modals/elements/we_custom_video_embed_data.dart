@@ -61,6 +61,19 @@ class WECustomVideoEmbedData {
       data.hashCode ^
       caption.hashCode;
 
+  WECustomVideoEmbedData clearCaption() {
+    return WECustomVideoEmbedData(
+      id: id ,
+      embedSource: embedSource ,
+      url: url,
+      thumbnail: thumbnail ,
+      aspectRatio: aspectRatio,
+      sizeMode: sizeMode ,
+      caption:null,
+      data: data ,
+    );
+  }
+
   WECustomVideoEmbedData copyWith({
     String? id,
     String? embedSource,
