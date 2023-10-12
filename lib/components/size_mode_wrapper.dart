@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wequil_editor/core/core.dart';
 
@@ -30,18 +31,23 @@ class SizeModeWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size constraint = MediaQuery.sizeOf(context);
-    final Size sizeRatio = getWidthRatioForSizeMode(sizeMode);
-    final double widthConstraints = constraint.width * sizeRatio.width;
-    return Center(
-      child: Container(
-        constraints: BoxConstraints(
-            minWidth: widthConstraints,
-            maxWidth: widthConstraints,
-            maxHeight: constraint.width * sizeRatio.height),
-        child: builder(context,
-            Size(widthConstraints, constraint.width * sizeRatio.height)),
-      ),
-    );
+    return LayoutBuilder(builder: (context, constraints) {
+      final Size constraint = kIsWeb
+          ? Size(constraints.maxWidth, constraints.maxHeight)
+          : MediaQuery.sizeOf(context);
+      final Size sizeRatio = getWidthRatioForSizeMode(sizeMode);
+      final double widthConstraints = constraint.width * sizeRatio.width;
+      final double maxHeight = constraint.width * sizeRatio.height;
+      return Center(
+        child: Container(
+          constraints: BoxConstraints(
+              minWidth: widthConstraints,
+              maxWidth: widthConstraints,
+              maxHeight: maxHeight),
+          child: builder(context,
+              Size(widthConstraints, constraint.width * sizeRatio.height)),
+        ),
+      );
+    });
   }
 }
