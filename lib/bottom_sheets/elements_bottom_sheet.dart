@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wequil_editor/state/state.dart';
 
@@ -39,7 +40,11 @@ class WEElementsBottomSheet extends StatelessWidget {
               Text(
                 title,
                 style: titleTextStyle ?? textTheme.titleLarge,
-              )
+              ),
+              if (kIsWeb) ...[
+                const Spacer(),
+                CloseButton(onPressed: Navigator.of(context).pop),
+              ]
             ],
           ),
           const SizedBox(
