@@ -6,6 +6,9 @@ import 'package:wequil_editor/core/core.dart';
 import 'package:wequil_editor/state/wequil_editor_controller.dart';
 
 class WequilEditor extends StatelessWidget {
+
+  static const List<dynamic> emptyContent = [{"insert": " \n"}];
+
   final WEquilEditorController controller;
   final FocusNode focusNode;
   final EdgeInsets? padding;
@@ -18,6 +21,7 @@ class WequilEditor extends StatelessWidget {
   final Widget Function(WECustomVideoEmbedData embedData, Embed node,
       bool readOnly, bool inline, TextStyle textStyle)? videoEmbedBuilder;
   final List<dynamic> customEmbedBuilders;
+  final String? hint;
 
   const WequilEditor({
     super.key,
@@ -32,6 +36,7 @@ class WequilEditor extends StatelessWidget {
     this.readOnly = false,
     this.cursorEnabled = true,
     this.customEmbedBuilders = const [],
+    this.hint = "Write your post here",
   });
 
   @override
@@ -40,7 +45,7 @@ class WequilEditor extends StatelessWidget {
         value: controller,
         builder: (context, _) {
           final WEquilEditorController controller =
-              context.watch<WEquilEditorController>();
+          context.watch<WEquilEditorController>();
           return QuillEditor(
             controller: controller.quillController,
             scrollController: controller.scrollController,
@@ -48,7 +53,7 @@ class WequilEditor extends StatelessWidget {
             focusNode: focusNode,
             autoFocus: autoFocus,
             readOnly: readOnly || !controller.allowCursor,
-            placeholder: "Write your post here",
+            placeholder: hint,
             expands: true,
             showCursor: cursorEnabled && controller.allowCursor,
             padding: padding ?? EdgeInsets.zero,
