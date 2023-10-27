@@ -90,6 +90,7 @@ class _WequilEditorPreviewState extends State<WequilEditorPreview> {
       padding: widget.padding,
       showCursor: false,
       onLaunchUrl: widget.onLaunchUrl,
+
       customStyles: widget.customStyle,
       embedBuilders: [
         DefaultWEAttachmentEmbedBuilder(
