@@ -53,10 +53,29 @@ class WEquilEditorController extends ChangeNotifier {
 
   setContent(Map<String, dynamic>? content) {
     if (content != null && content['delta'] != null) {
-      Delta delta = Document.fromJson(content['delta']).toDelta();
-      delta.trim();
+      List<dynamic> finalDelta = [];
+      bool trimmedEnd = false;
+      List
+          .from(content['delta'])
+          .reversed
+          .forEach((element) {
+        if (element['insert'] is String && !trimmedEnd) {
+          String stringContent = element['insert'] ?? "";
+          if (stringContent
+              .trim()
+              .isNotEmpty) {
+            finalDelta.add({
+              "insert": "${stringContent.trim()}\n"
+            });
+            trimmedEnd = true;
+          }
+        } else {
+          finalDelta.add(element);
+          trimmedEnd = true;
+        }
+      });
       quillController.compose(
-        delta,
+        Delta.fromJson(finalDelta.reversed.toList()),
         const TextSelection(baseOffset: 0, extentOffset: 0),
         ChangeSource.LOCAL,
       );
