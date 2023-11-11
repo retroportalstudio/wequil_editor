@@ -56,4 +56,18 @@ class WEEditorHelperFunctions {
     }
     return null;
   }
+
+  static bool isEmptyContent(List<dynamic> content) {
+    String totalContent = "";
+    for (int x = 0; x < content.length; x++) {
+      Map<String, dynamic> element = content[x];
+      if (element['insert'] is String) {
+        String stringContent = element['insert'] ?? "";
+        totalContent += stringContent.trim();
+      } else {
+        return false;
+      }
+    }
+    return totalContent.trim().isEmpty;
+  }
 }
