@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
-import 'package:provider/provider.dart';
 import 'package:wequil_editor/core/core.dart';
-import 'package:wequil_editor/state/state.dart';
 
 class DefaultWEAttachmentEmbedBuilder extends quill.EmbedBuilder {
   final Widget Function(WECustomAttachmentData embedData, quill.Embed node,
