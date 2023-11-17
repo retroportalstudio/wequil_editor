@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:wequil_editor/core/core.dart';
 import 'package:wequil_editor/state/state.dart';
@@ -56,14 +57,12 @@ class WequilEditorFunctions {
 
   static addHyperLinkToEditor(
       {required LinkTextData value,
-      required WEquilEditorController controller}) {
-    var index = controller.quillController.selection.start;
-    var length = controller.quillController.selection.end - index;
-    if (controller.quillController
-            .getSelectionStyle()
-            .attributes[Attribute.link.key]
-            ?.value !=
-        null) {
+      required WEquilEditorController controller,
+      required TextSelection selection,
+      required Style selectionStyle}) {
+    var index = selection.start;
+    var length = selection.end - index;
+    if (selectionStyle.attributes[Attribute.link.key]?.value != null) {
       // text should be the link's corresponding text, not selection
       final leaf =
           controller.quillController.document.querySegmentLeafNode(index).leaf;
