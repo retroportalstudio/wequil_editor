@@ -15,10 +15,10 @@ class WEquilEditorController extends ChangeNotifier {
   final ScrollController _scrollController = ScrollController();
 
   WETheme _theme =
-  const WETheme(iconTheme: _defaultIconTheme, iconSize: _defaultIconSize);
+      const WETheme(iconTheme: _defaultIconTheme, iconSize: _defaultIconSize);
 
   final ValueNotifier<Set<Attribute>> _selectedAttributes =
-  ValueNotifier<Set<Attribute>>({});
+      ValueNotifier<Set<Attribute>>({});
 
   bool _allowCursor = true;
   bool _hasChanged = false;
@@ -55,18 +55,13 @@ class WEquilEditorController extends ChangeNotifier {
     if (content != null && content['delta'] != null) {
       List<dynamic> finalDelta = [];
       bool trimmedEnd = false;
-      List
-          .from(content['delta'])
-          .reversed
-          .forEach((element) {
+      List.from(content['delta']).reversed.forEach((element) {
         if (element['insert'] is String && !trimmedEnd) {
+          Map<String, dynamic> attributes = element['attributes'] ?? {};
+          bool isListOrdered = attributes.containsKey("list");
           String stringContent = element['insert'] ?? "";
-          if (stringContent
-              .trim()
-              .isNotEmpty) {
-            finalDelta.add({
-              "insert": "${stringContent.trim()}\n"
-            });
+          if (stringContent.trim().isNotEmpty || isListOrdered) {
+            finalDelta.add(element);
             trimmedEnd = true;
           }
         } else {
