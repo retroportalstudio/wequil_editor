@@ -11,6 +11,13 @@ class SizeModeWrapper extends StatelessWidget {
       {super.key, required this.sizeMode, required this.builder});
 
   Size getWidthRatioForSizeMode(SizeMode mode) {
+    if (!kIsWeb) {
+      if (mode == SizeMode.mini) {
+        return const Size(0.4, 0.4);
+      } else if (mode == SizeMode.tiny) {
+        return const Size(0.5, 0.5);
+      }
+    }
     switch (mode) {
       case SizeMode.mini:
         return const Size(0.2, 0.2);
