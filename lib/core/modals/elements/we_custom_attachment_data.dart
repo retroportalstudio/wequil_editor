@@ -9,6 +9,8 @@ class WECustomAttachmentData {
     'gif',
     'heic',
     'heif',
+    'webp',
+    'WEBP',
     'JPG',
     'JPEG',
     'PNG',
