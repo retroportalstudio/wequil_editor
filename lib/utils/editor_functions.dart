@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:wequil_editor/core/core.dart';
 import 'package:wequil_editor/state/state.dart';
-import 'package:flutter_quill/src/widgets/link.dart';
+import 'package:flutter_quill/src/widgets/others/link.dart';
 
 class WequilEditorFunctions {
   static LinkTextData? extractHyperlinkFromSelection(
@@ -126,7 +126,7 @@ class WequilEditorFunctions {
       controller.quillController.clear();
 
       controller.quillController.document
-          .compose(Document.fromJson(deltas).toDelta(), ChangeSource.LOCAL);
+          .compose(Document.fromJson(deltas).toDelta(), ChangeSource.local);
       controller.quillController.moveCursorToPosition(cursorPosition);
     }
     // controller.quillController.queryNode(offset)
@@ -164,7 +164,7 @@ class WequilEditorFunctions {
       controller.quillController.clear();
 
       controller.quillController.document
-          .compose(Document.fromJson(deltas).toDelta(), ChangeSource.LOCAL);
+          .compose(Document.fromJson(deltas).toDelta(), ChangeSource.local);
       controller.quillController.moveCursorToPosition(cursorPosition);
     }
     // controller.quillController.queryNode(offset)

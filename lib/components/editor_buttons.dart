@@ -10,25 +10,21 @@ class WEUndoButton extends StatelessWidget {
   final QuillIconTheme? iconTheme;
   final Function()? afterPressed;
 
-  const WEUndoButton(
-      {super.key,
-      required this.controller,
-      this.icon,
-      this.iconSize,
-      this.afterPressed,
-      this.iconTheme});
+  const WEUndoButton({super.key, required this.controller, this.icon, this.iconSize, this.afterPressed, this.iconTheme});
 
   @override
   Widget build(BuildContext context) {
-    return HistoryButton(
-      icon: icon ?? Icons.undo,
+    return QuillToolbarHistoryButton(
       controller: controller.quillController,
-      undo: true,
-      iconSize: iconSize ?? controller.theme.iconSize,
-      iconTheme: iconTheme ?? controller.theme.iconTheme,
-      afterButtonPressed: () {
-        afterPressed?.call();
-      },
+      options: QuillToolbarHistoryButtonOptions(
+        iconData: icon ?? Icons.undo,
+        iconSize: iconSize ?? controller.theme.iconSize,
+        iconTheme: iconTheme ?? controller.theme.iconTheme,
+        afterButtonPressed: () {
+          afterPressed?.call();
+        },
+      ),
+      isUndo: true,
     );
   }
 }
@@ -41,25 +37,20 @@ class WERedoButton extends StatelessWidget {
 
   final Function()? afterPressed;
 
-  const WERedoButton(
-      {super.key,
-      required this.controller,
-      this.icon,
-      this.iconSize,
-      this.afterPressed,
-      this.iconTheme});
+  const WERedoButton({super.key, required this.controller, this.icon, this.iconSize, this.afterPressed, this.iconTheme});
 
   @override
   Widget build(BuildContext context) {
-    return HistoryButton(
-      icon: icon ?? Icons.redo,
+    return QuillToolbarHistoryButton(
+      options: QuillToolbarHistoryButtonOptions(
+          iconSize: iconSize ?? controller.theme.iconSize,
+          iconTheme: iconTheme ?? controller.theme.iconTheme,
+          afterButtonPressed: () {
+            afterPressed?.call();
+          },
+          iconData: icon ?? Icons.redo),
       controller: controller.quillController,
-      undo: false,
-      iconSize: iconSize ?? controller.theme.iconSize,
-      iconTheme: iconTheme ?? controller.theme.iconTheme,
-      afterButtonPressed: () {
-        afterPressed?.call();
-      },
+      isUndo: false,
     );
   }
 }
@@ -73,26 +64,22 @@ class WEStyleButton extends StatelessWidget {
   final Function()? afterPressed;
 
   const WEStyleButton(
-      {super.key,
-      required this.controller,
-      required this.icon,
-      this.iconSize,
-      this.iconTheme,
-      this.afterPressed,
-      required this.attribute});
+      {super.key, required this.controller, required this.icon, this.iconSize, this.iconTheme, this.afterPressed, required this.attribute});
 
   @override
   Widget build(BuildContext context) {
-    return ToggleStyleButton(
+    return QuillToolbarToggleStyleButton(
       attribute: attribute,
-      icon: icon,
+      options: QuillToolbarToggleStyleButtonOptions(
+        iconSize: iconSize ?? controller.theme.iconSize,
+        iconTheme: iconTheme ?? controller.theme.iconTheme,
+        afterButtonPressed: () {
+          controller.toggleSelectedAttribute(attribute);
+          afterPressed?.call();
+        },
+        iconData: icon,
+      ),
       controller: controller.quillController,
-      iconSize: iconSize ?? controller.theme.iconSize,
-      iconTheme: iconTheme ?? controller.theme.iconTheme,
-      afterButtonPressed: () {
-        controller.toggleSelectedAttribute(attribute);
-        afterPressed?.call();
-      },
     );
   }
 }
@@ -105,55 +92,54 @@ class WEListButton extends StatelessWidget {
   final QuillIconTheme? iconTheme;
   final Function()? afterPressed;
 
-  const WEListButton(
-      {super.key,
-      required this.type,
-      required this.controller,
-      this.icon,
-      this.iconSize,
-      this.afterPressed,
-      this.iconTheme});
+  const WEListButton({super.key, required this.type, required this.controller, this.icon, this.iconSize, this.afterPressed, this.iconTheme});
 
   @override
   Widget build(BuildContext context) {
     if (type == WEListType.bullet) {
-      return ToggleStyleButton(
+      return QuillToolbarToggleStyleButton(
         attribute: Attribute.ul,
-        tooltip: "Bullet List",
+        options: QuillToolbarToggleStyleButtonOptions(
+          tooltip: "Bullet List",
+          iconData: Icons.format_list_bulleted,
+          iconSize: iconSize ?? controller.theme.iconSize,
+          iconTheme: iconTheme ?? controller.theme.iconTheme,
+          afterButtonPressed: () {
+            controller.toggleSelectedAttribute(Attribute.ul);
+            afterPressed?.call();
+          },
+        ),
         controller: controller.quillController,
-        icon: Icons.format_list_bulleted,
-        iconSize: iconSize ?? controller.theme.iconSize,
-        iconTheme: iconTheme ?? controller.theme.iconTheme,
-        afterButtonPressed: () {
-          controller.toggleSelectedAttribute(Attribute.ul);
-          afterPressed?.call();
-        },
       );
     } else if (type == WEListType.numbered) {
-      return ToggleStyleButton(
+      return QuillToolbarToggleStyleButton(
         attribute: Attribute.ol,
-        tooltip: "Numbered List",
-        icon: Icons.format_list_numbered,
+        options: QuillToolbarToggleStyleButtonOptions(
+          tooltip: "Numbered List",
+          iconData: Icons.format_list_numbered,
+          iconSize: iconSize ?? controller.theme.iconSize,
+          iconTheme: iconTheme ?? controller.theme.iconTheme,
+          afterButtonPressed: () {
+            controller.toggleSelectedAttribute(Attribute.ol);
+            afterPressed?.call();
+          },
+        ),
         controller: controller.quillController,
-        iconSize: iconSize ?? controller.theme.iconSize,
-        iconTheme: iconTheme ?? controller.theme.iconTheme,
-        afterButtonPressed: () {
-          controller.toggleSelectedAttribute(Attribute.ol);
-          afterPressed?.call();
-        },
       );
     } else {
-      return ToggleCheckListButton(
-        attribute: Attribute.unchecked,
-        tooltip: "Checklist",
+      return QuillToolbarToggleCheckListButton(
+        options: QuillToolbarToggleCheckListButtonOptions(
+          attribute: Attribute.unchecked,
+          tooltip: "Checklist",
+          iconData: Icons.checklist,
+          iconSize: iconSize ?? controller.theme.iconSize,
+          iconTheme: iconTheme ?? controller.theme.iconTheme,
+          afterButtonPressed: () {
+            controller.toggleSelectedAttribute(Attribute.unchecked);
+            afterPressed?.call();
+          },
+        ),
         controller: controller.quillController,
-        icon: Icons.checklist,
-        iconSize: iconSize ?? controller.theme.iconSize,
-        iconTheme: iconTheme ?? controller.theme.iconTheme,
-        afterButtonPressed: () {
-          controller.toggleSelectedAttribute(Attribute.unchecked);
-          afterPressed?.call();
-        },
       );
     }
   }
@@ -175,11 +161,13 @@ class WEHeaderStyleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SelectHeaderStyleButton(
-      tooltip: "Header Style",
+    return QuillToolbarSelectHeaderStyleButtons(
+      options: QuillToolbarSelectHeaderStyleButtonsOptions(
+        tooltip: "Header Style",
+        iconSize: iconSize ?? controller.theme.iconSize,
+        iconTheme: iconTheme ?? controller.theme.iconTheme,
+      ),
       controller: controller.quillController,
-      iconSize: iconSize ?? controller.theme.iconSize,
-      iconTheme: iconTheme ?? controller.theme.iconTheme,
     );
   }
 }
@@ -191,30 +179,21 @@ class WEFontSizeButton extends StatelessWidget {
   final Function()? afterPressed;
   final Function(dynamic)? onSelected;
 
-  const WEFontSizeButton(
-      {super.key,
-      required this.controller,
-      this.iconSize,
-      this.iconTheme,
-      this.onSelected,
-      this.afterPressed});
+  const WEFontSizeButton({super.key, required this.controller, this.iconSize, this.iconTheme, this.onSelected, this.afterPressed});
 
   @override
   Widget build(BuildContext context) {
-    return QuillFontSizeButton(
+    return QuillToolbarFontSizeButton(
       controller: controller.quillController,
-      iconSize: iconSize ?? controller.theme.iconSize,
-      iconTheme: iconTheme ?? controller.theme.iconTheme,
-      tooltip: "Font Size",
-      attribute: Attribute.size,
-      onSelected: onSelected,
-      rawItemsMap: const {
-        'Small': 'small',
-        'Large': 'large',
-        'Huge': 'huge',
-        'Clear': '0'
-      },
-      afterButtonPressed: afterPressed,
+      options: QuillToolbarFontSizeButtonOptions(
+        iconSize: iconSize ?? controller.theme.iconSize,
+        // iconTheme ?? controller.theme.iconTheme,
+        tooltip: "Font Size",
+        attribute: Attribute.size,
+        onSelected: onSelected,
+        rawItemsMap: const {'Small': 'small', 'Large': 'large', 'Huge': 'huge', 'Clear': '0'},
+        afterButtonPressed: afterPressed,
+      ),
     );
   }
 }
@@ -226,24 +205,20 @@ class WEFontColorButton extends StatelessWidget {
   final Function()? afterPressed;
   final bool forBackground;
 
-  const WEFontColorButton(
-      {super.key,
-      required this.controller,
-      this.iconSize,
-      this.iconTheme,
-      required this.forBackground,
-      this.afterPressed});
+  const WEFontColorButton({super.key, required this.controller, this.iconSize, this.iconTheme, required this.forBackground, this.afterPressed});
 
   @override
   Widget build(BuildContext context) {
-    return ColorButton(
+    return QuillToolbarColorButton(
       controller: controller.quillController,
-      iconSize: iconSize ?? controller.theme.iconSize,
-      iconTheme: iconTheme ?? controller.theme.iconTheme,
-      tooltip: forBackground ? "Background Color" : "Text Color",
-      background: forBackground,
-      afterButtonPressed: afterPressed,
-      icon: Icons.color_lens,
+      options: QuillToolbarColorButtonOptions(
+        iconSize: iconSize ?? controller.theme.iconSize,
+        iconTheme: iconTheme ?? controller.theme.iconTheme,
+        tooltip: forBackground ? "Background Color" : "Text Color",
+        afterButtonPressed: afterPressed,
+        iconData: Icons.color_lens,
+      ),
+      isBackground: forBackground,
     );
   }
 }
@@ -255,26 +230,20 @@ class WEIndentButton extends StatelessWidget {
   final Function()? afterPressed;
   final bool increase;
 
-  const WEIndentButton(
-      {super.key,
-      required this.controller,
-      this.iconSize,
-      this.iconTheme,
-      required this.increase,
-      this.afterPressed});
+  const WEIndentButton({super.key, required this.controller, this.iconSize, this.iconTheme, required this.increase, this.afterPressed});
 
   @override
   Widget build(BuildContext context) {
-    return IndentButton(
+    return QuillToolbarIndentButton(
       controller: controller.quillController,
-      iconSize: iconSize ?? controller.theme.iconSize,
-      iconTheme: iconTheme ?? controller.theme.iconTheme,
-      tooltip: "${increase ? "Increase" : "Decrease"} Indent",
+      options: QuillToolbarIndentButtonOptions(
+        iconSize: iconSize ?? controller.theme.iconSize,
+        iconTheme: iconTheme ?? controller.theme.iconTheme,
+        tooltip: "${increase ? "Increase" : "Decrease"} Indent",
+        iconData: increase ? Icons.format_indent_increase_outlined : Icons.format_indent_decrease_rounded,
+        afterButtonPressed: afterPressed,
+      ),
       isIncrease: increase,
-      icon: increase
-          ? Icons.format_indent_increase_outlined
-          : Icons.format_indent_decrease_rounded,
-      afterButtonPressed: afterPressed,
     );
   }
 }

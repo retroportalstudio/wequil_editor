@@ -6,8 +6,9 @@ import 'package:wequil_editor/core/core.dart';
 import 'package:wequil_editor/state/wequil_editor_controller.dart';
 
 class WequilEditor extends StatelessWidget {
-
-  static const List<dynamic> emptyContent = [{"insert": " \n"}];
+  static const List<dynamic> emptyContent = [
+    {"insert": " \n"}
+  ];
 
   final WEquilEditorController controller;
   final FocusNode focusNode;
@@ -16,10 +17,8 @@ class WequilEditor extends StatelessWidget {
   final Function(String url) onLaunchUrl;
   final DefaultStyles customStyles;
   final bool readOnly, cursorEnabled;
-  final Widget Function(WECustomAttachmentData embedData, Embed node,
-      bool readOnly, bool inline, TextStyle textStyle)? attachmentEmbedBuilder;
-  final Widget Function(WECustomVideoEmbedData embedData, Embed node,
-      bool readOnly, bool inline, TextStyle textStyle)? videoEmbedBuilder;
+  final Widget Function(WECustomAttachmentData embedData, Embed node, bool readOnly, bool inline, TextStyle textStyle)? attachmentEmbedBuilder;
+  final Widget Function(WECustomVideoEmbedData embedData, Embed node, bool readOnly, bool inline, TextStyle textStyle)? videoEmbedBuilder;
   final List<dynamic> customEmbedBuilders;
   final String? hint;
 
@@ -44,27 +43,27 @@ class WequilEditor extends StatelessWidget {
     return ChangeNotifierProvider<WEquilEditorController>.value(
         value: controller,
         builder: (context, _) {
-          final WEquilEditorController controller =
-          context.watch<WEquilEditorController>();
+          final WEquilEditorController controller = context.watch<WEquilEditorController>();
           return QuillEditor(
-            controller: controller.quillController,
+            configurations: QuillEditorConfigurations(
+              controller: controller.quillController,
+              autoFocus: autoFocus,
+              readOnly: readOnly || !controller.allowCursor,
+              placeholder: hint,
+              expands: true,
+              showCursor: cursorEnabled && controller.allowCursor,
+              padding: padding ?? EdgeInsets.zero,
+              onLaunchUrl: onLaunchUrl,
+              customStyles: customStyles,
+              embedBuilders: [
+                DefaultWEAttachmentEmbedBuilder(embedBuilder: attachmentEmbedBuilder),
+                DefaultWEVideoEmbedBuilder(embedBuilder: videoEmbedBuilder),
+                ...customEmbedBuilders
+              ],
+              scrollable: true,
+            ),
             scrollController: controller.scrollController,
-            scrollable: true,
             focusNode: focusNode,
-            autoFocus: autoFocus,
-            readOnly: readOnly || !controller.allowCursor,
-            placeholder: hint,
-            expands: true,
-            showCursor: cursorEnabled && controller.allowCursor,
-            padding: padding ?? EdgeInsets.zero,
-            onLaunchUrl: onLaunchUrl,
-            customStyles: customStyles,
-            embedBuilders: [
-              DefaultWEAttachmentEmbedBuilder(
-                  embedBuilder: attachmentEmbedBuilder),
-              DefaultWEVideoEmbedBuilder(embedBuilder: videoEmbedBuilder),
-              ...customEmbedBuilders
-            ],
             // embedBuilder: quillEditingEmbedBuilder,
           );
         });

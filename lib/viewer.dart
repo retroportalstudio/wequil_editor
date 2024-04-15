@@ -10,10 +10,8 @@ class WequilEditorPreview extends StatefulWidget {
   final List<dynamic> delta;
   final TextStyle? textStyle;
   final bool expands;
-  final Widget Function(WECustomAttachmentData embedData, Embed node,
-      bool readOnly, bool inline, TextStyle textStyle)? attachmentEmbedBuilder;
-  final Widget Function(WECustomVideoEmbedData embedData, Embed node,
-      bool readOnly, bool inline, TextStyle textStyle)? videoEmbedBuilder;
+  final Widget Function(WECustomAttachmentData embedData, Embed node, bool readOnly, bool inline, TextStyle textStyle)? attachmentEmbedBuilder;
+  final Widget Function(WECustomVideoEmbedData embedData, Embed node, bool readOnly, bool inline, TextStyle textStyle)? videoEmbedBuilder;
   final List<dynamic> customEmbedBuilders;
   final DefaultStyles? customStyle;
 
@@ -57,7 +55,7 @@ class _WequilEditorPreviewState extends State<WequilEditorPreview> {
     _quillController.compose(
       document.toDelta(),
       const TextSelection(baseOffset: 0, extentOffset: 0),
-      ChangeSource.LOCAL,
+      ChangeSource.local,
     );
     setState(() {});
   }
@@ -79,25 +77,26 @@ class _WequilEditorPreviewState extends State<WequilEditorPreview> {
   @override
   Widget build(BuildContext context) {
     return QuillEditor(
-      controller: _quillController,
-      readOnly: true,
-      expands: widget.expands,
       scrollController: _scrollController,
-      autoFocus: false,
-      scrollable: true,
 
       focusNode: _focusNode,
-      padding: widget.padding,
-      showCursor: false,
-      onLaunchUrl: widget.onLaunchUrl,
 
-      customStyles: widget.customStyle,
-      embedBuilders: [
-        DefaultWEAttachmentEmbedBuilder(
-            embedBuilder: widget.attachmentEmbedBuilder),
-        DefaultWEVideoEmbedBuilder(embedBuilder: widget.videoEmbedBuilder),
-        ...widget.customEmbedBuilders
-      ],
+      configurations: QuillEditorConfigurations(
+        controller: _quillController,
+        autoFocus: false,
+        scrollable: true,
+        padding: widget.padding,
+        showCursor: false,
+        onLaunchUrl: widget.onLaunchUrl,
+        readOnly: true,
+        expands: widget.expands,
+        customStyles: widget.customStyle,
+        embedBuilders: [
+          DefaultWEAttachmentEmbedBuilder(embedBuilder: widget.attachmentEmbedBuilder),
+          DefaultWEVideoEmbedBuilder(embedBuilder: widget.videoEmbedBuilder),
+          ...widget.customEmbedBuilders
+        ],
+      ),
       // embedBuilder: quillEmbedBuilder,
     );
   }
