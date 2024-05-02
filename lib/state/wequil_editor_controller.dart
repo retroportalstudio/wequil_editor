@@ -6,8 +6,6 @@ import 'package:wequil_editor/utils/editor_functions.dart';
 
 const double _defaultIconSize = 20;
 const QuillIconTheme _defaultIconTheme = QuillIconTheme(
-    iconButtonSelectedStyle: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.black)),
-    iconButtonUnselectedStyle: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.transparent)),
     iconButtonSelectedData: IconButtonData(
       color: Colors.white,
     ),
