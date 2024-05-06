@@ -10,8 +10,10 @@ class WequilEditorPreview extends StatefulWidget {
   final List<dynamic> delta;
   final TextStyle? textStyle;
   final bool expands;
-  final Widget Function(WECustomAttachmentData embedData, Embed node, bool readOnly, bool inline, TextStyle textStyle)? attachmentEmbedBuilder;
-  final Widget Function(WECustomVideoEmbedData embedData, Embed node, bool readOnly, bool inline, TextStyle textStyle)? videoEmbedBuilder;
+  final Widget Function(WECustomAttachmentData embedData, Embed node,
+      bool readOnly, bool inline, TextStyle textStyle)? attachmentEmbedBuilder;
+  final Widget Function(WECustomVideoEmbedData embedData, Embed node,
+      bool readOnly, bool inline, TextStyle textStyle)? videoEmbedBuilder;
   final List<dynamic> customEmbedBuilders;
   final DefaultStyles? customStyle;
 
@@ -76,6 +78,7 @@ class _WequilEditorPreviewState extends State<WequilEditorPreview> {
 
   @override
   Widget build(BuildContext context) {
+    // _quillController.readOnly = true;
     return QuillEditor(
       scrollController: _scrollController,
 
@@ -92,7 +95,8 @@ class _WequilEditorPreviewState extends State<WequilEditorPreview> {
         expands: widget.expands,
         customStyles: widget.customStyle,
         embedBuilders: [
-          DefaultWEAttachmentEmbedBuilder(embedBuilder: widget.attachmentEmbedBuilder),
+          DefaultWEAttachmentEmbedBuilder(
+              embedBuilder: widget.attachmentEmbedBuilder),
           DefaultWEVideoEmbedBuilder(embedBuilder: widget.videoEmbedBuilder),
           ...widget.customEmbedBuilders
         ],

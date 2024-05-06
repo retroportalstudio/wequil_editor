@@ -17,8 +17,10 @@ class WequilEditor extends StatelessWidget {
   final Function(String url) onLaunchUrl;
   final DefaultStyles customStyles;
   final bool readOnly, cursorEnabled;
-  final Widget Function(WECustomAttachmentData embedData, Embed node, bool readOnly, bool inline, TextStyle textStyle)? attachmentEmbedBuilder;
-  final Widget Function(WECustomVideoEmbedData embedData, Embed node, bool readOnly, bool inline, TextStyle textStyle)? videoEmbedBuilder;
+  final Widget Function(WECustomAttachmentData embedData, Embed node,
+      bool readOnly, bool inline, TextStyle textStyle)? attachmentEmbedBuilder;
+  final Widget Function(WECustomVideoEmbedData embedData, Embed node,
+      bool readOnly, bool inline, TextStyle textStyle)? videoEmbedBuilder;
   final List<dynamic> customEmbedBuilders;
   final String? hint;
 
@@ -43,7 +45,10 @@ class WequilEditor extends StatelessWidget {
     return ChangeNotifierProvider<WEquilEditorController>.value(
         value: controller,
         builder: (context, _) {
-          final WEquilEditorController controller = context.watch<WEquilEditorController>();
+          final WEquilEditorController controller =
+              context.watch<WEquilEditorController>();
+          // controller.quillController.readOnly =
+          //     readOnly || !controller.allowCursor;
           return QuillEditor(
             configurations: QuillEditorConfigurations(
               controller: controller.quillController,
@@ -56,7 +61,8 @@ class WequilEditor extends StatelessWidget {
               onLaunchUrl: onLaunchUrl,
               customStyles: customStyles,
               embedBuilders: [
-                DefaultWEAttachmentEmbedBuilder(embedBuilder: attachmentEmbedBuilder),
+                DefaultWEAttachmentEmbedBuilder(
+                    embedBuilder: attachmentEmbedBuilder),
                 DefaultWEVideoEmbedBuilder(embedBuilder: videoEmbedBuilder),
                 ...customEmbedBuilders
               ],
