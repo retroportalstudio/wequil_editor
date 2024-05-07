@@ -91,7 +91,7 @@ class _WequilEditorPreviewState extends State<WequilEditorPreview> {
         padding: widget.padding,
         showCursor: false,
         onLaunchUrl: widget.onLaunchUrl,
-        readOnly: true,
+        checkBoxReadOnly: true,
         expands: widget.expands,
         customStyles: widget.customStyle,
         embedBuilders: [

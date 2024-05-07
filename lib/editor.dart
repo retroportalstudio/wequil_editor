@@ -53,7 +53,7 @@ class WequilEditor extends StatelessWidget {
             configurations: QuillEditorConfigurations(
               controller: controller.quillController,
               autoFocus: autoFocus,
-              readOnly: readOnly || !controller.allowCursor,
+              checkBoxReadOnly: readOnly || !controller.allowCursor,
               placeholder: hint,
               expands: true,
               showCursor: cursorEnabled && controller.allowCursor,
