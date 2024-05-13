@@ -35,7 +35,7 @@ class WequilEditorPreview extends StatefulWidget {
 }
 
 class _WequilEditorPreviewState extends State<WequilEditorPreview> {
-  final _quillController = QuillController.basic();
+  QuillController? _quillController;
   final _scrollController = ScrollController();
   final _focusNode = FocusNode();
 
@@ -52,13 +52,20 @@ class _WequilEditorPreviewState extends State<WequilEditorPreview> {
       widget.delta,
     );
 
-    _quillController.clear();
+    _quillController?.clear();
 
-    _quillController.compose(
-      document.toDelta(),
-      const TextSelection(baseOffset: 0, extentOffset: 0),
-      ChangeSource.local,
-    );
+    if (_quillController != null) {
+      _quillController?.compose(
+        document.toDelta(),
+        const TextSelection(baseOffset: 0, extentOffset: 0),
+        ChangeSource.local,
+      );
+    } else {
+      _quillController = QuillController(
+          document: document,
+          selection: const TextSelection(baseOffset: 0, extentOffset: 0),
+          readOnly: true);
+    }
     setState(() {});
   }
 
@@ -71,7 +78,7 @@ class _WequilEditorPreviewState extends State<WequilEditorPreview> {
   @override
   void dispose() {
     _scrollController.dispose();
-    _quillController.dispose();
+    _quillController?.dispose();
     _focusNode.dispose();
     super.dispose();
   }
@@ -79,19 +86,20 @@ class _WequilEditorPreviewState extends State<WequilEditorPreview> {
   @override
   Widget build(BuildContext context) {
     // _quillController.readOnly = true;
+    if (_quillController == null) return const SizedBox.shrink();
+
     return QuillEditor(
       scrollController: _scrollController,
 
       focusNode: _focusNode,
 
       configurations: QuillEditorConfigurations(
-        controller: _quillController,
+        controller: _quillController!,
         autoFocus: false,
         scrollable: true,
         padding: widget.padding,
         showCursor: false,
         onLaunchUrl: widget.onLaunchUrl,
-        checkBoxReadOnly: true,
         expands: widget.expands,
         customStyles: widget.customStyle,
         embedBuilders: [
