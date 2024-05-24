@@ -95,7 +95,7 @@ class _WequilEditorPreviewState extends State<WequilEditorPreview> {
 
       configurations: QuillEditorConfigurations(
         controller: _quillController!,
-        autoFocus: true,
+        autoFocus: false,
         scrollable: true,
         padding: widget.padding,
         showCursor: false,
