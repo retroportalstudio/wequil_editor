@@ -74,42 +74,41 @@ class WEEditorHelperFunctions {
         return false;
       }
     }
-    return totalContent
-        .trim()
-        .isEmpty;
+    return totalContent.trim().isEmpty;
   }
 
   static WEquilEditorContentPreview getPreviewVersionOfContent(
       List<dynamic> content,
       {int charLimit = 200,
-        int mediaLimit = 1}) {
+      int mediaLimit = 1}) {
     String totalContent = "";
     final List<dynamic> previewContent = [];
 
     bool original = true;
     int closingIndex = 0;
     for (int x = 0; x < content.length; x++) {
+      bool isLast = content.length - 1 == x;
       ++closingIndex;
       Map<String, dynamic> element = Map.from(content[x]);
       if (element['insert'] is String) {
         final String stringContent = (element['insert'] ?? "").trim();
-        if (stringContent.isEmpty) {
+        if (stringContent.isEmpty && !element.containsKey("attributes")) {
           continue;
         }
         final String potentialString = totalContent + stringContent;
         if (potentialString.length > charLimit) {
           int remainigLimit = potentialString.length - charLimit;
           element['insert'] =
-          "${stringContent.substring(0, min(
-              (stringContent.length - remainigLimit).clamp(
-                  0, stringContent.length), stringContent.length))}...\n";
+              "${stringContent.substring(0, min((stringContent.length - remainigLimit).clamp(0, stringContent.length), stringContent.length))}...\n";
           previewContent.add(element);
           original = false;
           break;
         } else {
           totalContent += stringContent;
-          if(!stringContent.endsWith("\n")){
-            element['insert'] = "$stringContent\n";
+          if (isLast) {
+            if (!stringContent.endsWith("\n")) {
+              element['insert'] = "$stringContent\n";
+            }
           }
           previewContent.add(element);
         }
