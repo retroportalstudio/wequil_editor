@@ -86,6 +86,7 @@ class WEEditorHelperFunctions {
 
     bool original = true;
     int closingIndex = 0;
+    bool nAdded = false;
     for (int x = 0; x < content.length; x++) {
       bool isLast = content.length - 1 == x;
       ++closingIndex;
@@ -102,12 +103,14 @@ class WEEditorHelperFunctions {
               "${stringContent.substring(0, min((stringContent.length - remainigLimit).clamp(0, stringContent.length), stringContent.length))}...\n";
           previewContent.add(element);
           original = false;
+          nAdded = true;
           break;
         } else {
           totalContent += stringContent;
           if (isLast) {
             if (!stringContent.endsWith("\n")) {
               element['insert'] = "$stringContent\n";
+              nAdded = true;
             }
           }
           previewContent.add(element);
@@ -115,8 +118,12 @@ class WEEditorHelperFunctions {
       } else {
         previewContent.add(element);
         previewContent.add({"insert": " \n"});
+        nAdded = true;
         break;
       }
+    }
+    if (!nAdded) {
+      previewContent.add({"insert": " \n"});
     }
 
     return WEquilEditorContentPreview(
