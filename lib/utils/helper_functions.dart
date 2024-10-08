@@ -1,7 +1,4 @@
-import 'dart:convert';
 import 'dart:math';
-
-import 'package:flutter_quill/quill_delta.dart';
 import 'package:wequil_editor/core/core.dart';
 
 class WEEditorHelperFunctions {
@@ -129,5 +126,17 @@ class WEEditorHelperFunctions {
     return WEquilEditorContentPreview(
         content: previewContent,
         isOriginal: closingIndex >= content.length && original);
+  }
+
+  static String convertToText(List<dynamic> operations) {
+    StringBuffer buffer = StringBuffer();
+
+    for (var op in operations) {
+      if (op['insert'] is String) {
+        buffer.write(op['insert']);
+      }
+    }
+
+    return buffer.toString();
   }
 }
