@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:wequil_editor/core/core.dart';
 import 'package:wequil_editor/state/state.dart';
-import 'package:flutter_quill/src/widgets/others/link.dart';
 
 class WequilEditorFunctions {
   static LinkTextData? extractHyperlinkFromSelection(
@@ -14,7 +13,7 @@ class WequilEditorFunctions {
         ?.value;
     final index = controller.quillController.selection.start;
 
-    var text;
+    String? text;
     if (link != null) {
       // text should be the link's corresponding text, not selection
       final leaf =

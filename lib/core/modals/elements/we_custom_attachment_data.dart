@@ -143,7 +143,7 @@ class WECustomAttachmentData {
       id: id ?? this.id,
       mediaID: mediaID ?? this.mediaID,
       url: url ?? this.url,
-      thumbnail: thumbnail ?? this.thumbnail,
+      thumbnail: thumbnail ?? thumbnail,
       extension: extension ?? this.extension,
       aspectRatio: aspectRatio ?? this.aspectRatio,
       sizeMode: sizeMode ?? this.sizeMode,
@@ -155,16 +155,16 @@ class WECustomAttachmentData {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': this.id,
-      'mediaID': this.mediaID,
-      'url': this.url,
-      'thumbnail': this.thumbnail,
-      'extension': this.extension,
-      'sizeMode': this.sizeMode.name,
-      'aspectRatio': this.aspectRatio,
-      'alignment': this.alignment.name,
-      'caption': this.caption,
-      'data': this.data,
+      'id': id,
+      'mediaID': mediaID,
+      'url': url,
+      'thumbnail': thumbnail,
+      'extension': extension,
+      'sizeMode': sizeMode.name,
+      'aspectRatio': aspectRatio,
+      'alignment': alignment.name,
+      'caption': caption,
+      'data': data,
     };
   }
 

@@ -1,7 +1,5 @@
-import 'dart:convert';
 import 'dart:math';
 
-import 'package:flutter_quill/quill_delta.dart';
 import 'package:wequil_editor/core/core.dart';
 
 class WEEditorHelperFunctions {

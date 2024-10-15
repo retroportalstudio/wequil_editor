@@ -3,7 +3,6 @@ import 'package:wequil_editor/components/components.dart';
 import 'package:wequil_editor/state/state.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:wequil_editor/utils/editor_functions.dart';
-import 'package:wequil_editor/utils/helper_functions.dart';
 
 class WETextOptionsBottomSheet extends StatefulWidget {
   final String title;
@@ -86,7 +85,7 @@ class _WETextOptionsBottomSheetState extends State<WETextOptionsBottomSheet>
 class _TextOptions extends StatelessWidget {
   final WEquilEditorController controller;
 
-  const _TextOptions({super.key, required this.controller});
+  const _TextOptions({required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -217,14 +216,14 @@ class _TextOptions extends StatelessWidget {
 class _ParagraphOptions extends StatelessWidget {
   final WEquilEditorController controller;
 
-  const _ParagraphOptions({super.key, required this.controller});
+  const _ParagraphOptions({required this.controller});
 
   @override
   Widget build(BuildContext context) {
     const double iconSize = 20;
-    return Column(
+    return const Column(
       children: [
-        const SizedBox(
+        SizedBox(
           height: 10,
         ),
       ],

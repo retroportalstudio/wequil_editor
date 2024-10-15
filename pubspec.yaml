@@ -13,8 +13,8 @@ dependencies:
 
   provider: ^6.0.3
   random_string: ^2.3.1
-  flutter_quill: ^9.3.10
-  flutter_quill_extensions: ^9.3.10
+  flutter_quill: ^10.8.2
+  flutter_quill_extensions: ^10.8.2
 
 
 dev_dependencies:

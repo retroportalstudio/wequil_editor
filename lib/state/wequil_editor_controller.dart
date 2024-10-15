@@ -55,7 +55,7 @@ class WEquilEditorController extends ChangeNotifier {
     if (content != null && content['delta'] != null) {
       List<dynamic> finalDelta = [];
       bool trimmedEnd = false;
-      List.from(content['delta']).reversed.forEach((element) {
+      for (var element in List.from(content['delta']).reversed) {
         if (element['insert'] is String && !trimmedEnd) {
           Map<String, dynamic> attributes = element['attributes'] ?? {};
           bool isListOrdered = attributes.containsKey("list");
@@ -68,7 +68,7 @@ class WEquilEditorController extends ChangeNotifier {
           finalDelta.add(element);
           trimmedEnd = true;
         }
-      });
+      }
       quillController.compose(
         Delta.fromJson(finalDelta.reversed.toList()),
         const TextSelection(baseOffset: 0, extentOffset: 0),

@@ -100,14 +100,14 @@ class WECustomVideoEmbedData {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': this.id,
-      'embedSource': this.embedSource,
-      'url': this.url,
-      'thumbnail': this.thumbnail,
-      'sizeMode': this.sizeMode.name,
-      'aspectRatio': this.aspectRatio,
-      'caption': this.caption,
-      'data': this.data,
+      'id': id,
+      'embedSource': embedSource,
+      'url': url,
+      'thumbnail': thumbnail,
+      'sizeMode': sizeMode.name,
+      'aspectRatio': aspectRatio,
+      'caption': caption,
+      'data': data,
     };
   }
 
