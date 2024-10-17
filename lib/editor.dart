@@ -6,8 +6,9 @@ import 'package:wequil_editor/core/core.dart';
 import 'package:wequil_editor/state/wequil_editor_controller.dart';
 
 class WequilEditor extends StatelessWidget {
-
-  static const List<dynamic> emptyContent = [{"insert": " \n"}];
+  static const List<dynamic> emptyContent = [
+    {"insert": " \n"}
+  ];
 
   final WEquilEditorController controller;
   final FocusNode focusNode;
@@ -45,26 +46,30 @@ class WequilEditor extends StatelessWidget {
         value: controller,
         builder: (context, _) {
           final WEquilEditorController controller =
-          context.watch<WEquilEditorController>();
+              context.watch<WEquilEditorController>();
+          // controller.quillController.readOnly =
+          //     readOnly || !controller.allowCursor;
           return QuillEditor(
-            controller: controller.quillController,
+            configurations: QuillEditorConfigurations(
+              controller: controller.quillController,
+              autoFocus: autoFocus,
+              checkBoxReadOnly: readOnly || !controller.allowCursor,
+              placeholder: hint,
+              expands: true,
+              showCursor: cursorEnabled && controller.allowCursor,
+              padding: padding ?? EdgeInsets.zero,
+              onLaunchUrl: onLaunchUrl,
+              customStyles: customStyles,
+              embedBuilders: [
+                DefaultWEAttachmentEmbedBuilder(
+                    embedBuilder: attachmentEmbedBuilder),
+                DefaultWEVideoEmbedBuilder(embedBuilder: videoEmbedBuilder),
+                ...customEmbedBuilders
+              ],
+              scrollable: true,
+            ),
             scrollController: controller.scrollController,
-            scrollable: true,
             focusNode: focusNode,
-            autoFocus: autoFocus,
-            readOnly: readOnly || !controller.allowCursor,
-            placeholder: hint,
-            expands: true,
-            showCursor: cursorEnabled && controller.allowCursor,
-            padding: padding ?? EdgeInsets.zero,
-            onLaunchUrl: onLaunchUrl,
-            customStyles: customStyles,
-            embedBuilders: [
-              DefaultWEAttachmentEmbedBuilder(
-                  embedBuilder: attachmentEmbedBuilder),
-              DefaultWEVideoEmbedBuilder(embedBuilder: videoEmbedBuilder),
-              ...customEmbedBuilders
-            ],
             // embedBuilder: quillEditingEmbedBuilder,
           );
         });

@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/quill_delta.dart';
 import 'package:wequil_editor/core/core.dart';
 import 'package:wequil_editor/utils/editor_functions.dart';
 
 const double _defaultIconSize = 20;
 const QuillIconTheme _defaultIconTheme = QuillIconTheme(
-    iconSelectedColor: Colors.white,
-    iconUnselectedColor: Colors.black,
-    iconSelectedFillColor: Colors.black,
-    iconUnselectedFillColor: Colors.transparent);
+    iconButtonSelectedData: IconButtonData(
+      color: Colors.white,
+    ),
+    iconButtonUnselectedData: IconButtonData(
+      color: Colors.black,
+    ));
 
 class WEquilEditorController extends ChangeNotifier {
   final QuillController _quillController = QuillController.basic();
   final ScrollController _scrollController = ScrollController();
 
-  WETheme _theme =
-      const WETheme(iconTheme: _defaultIconTheme, iconSize: _defaultIconSize);
+  WETheme _theme = const WETheme(iconTheme: _defaultIconTheme, iconSize: _defaultIconSize);
 
-  final ValueNotifier<Set<Attribute>> _selectedAttributes =
-      ValueNotifier<Set<Attribute>>({});
+  final ValueNotifier<Set<Attribute>> _selectedAttributes = ValueNotifier<Set<Attribute>>({});
 
   bool _allowCursor = true;
   bool _hasChanged = false;
@@ -36,8 +37,7 @@ class WEquilEditorController extends ChangeNotifier {
 
   WETheme get theme => _theme;
 
-  ValueNotifier<Set<Attribute>> get selectedAttributesNotifier =>
-      _selectedAttributes;
+  ValueNotifier<Set<Attribute>> get selectedAttributesNotifier => _selectedAttributes;
 
   Set<Attribute<dynamic>> get selectedAttributes => _selectedAttributes.value;
 
@@ -72,7 +72,7 @@ class WEquilEditorController extends ChangeNotifier {
       quillController.compose(
         Delta.fromJson(finalDelta.reversed.toList()),
         const TextSelection(baseOffset: 0, extentOffset: 0),
-        ChangeSource.LOCAL,
+        ChangeSource.local,
       );
       notifyListeners();
     }
@@ -102,14 +102,12 @@ class WEquilEditorController extends ChangeNotifier {
 
   incrementFontSize() {
     fontSize.value += 1;
-    quillController
-        .formatSelection(Attribute.fromKeyValue('size', fontSize.value.ceil()));
+    quillController.formatSelection(Attribute.fromKeyValue('size', fontSize.value.ceil()));
   }
 
   decrementFontSize() {
     fontSize.value -= 1;
-    quillController.formatSelection(
-        Attribute.fromKeyValue('size', fontSize.value.floor()));
+    quillController.formatSelection(Attribute.fromKeyValue('size', fontSize.value.floor()));
   }
 
   addVideoEmbedToEditor(WECustomVideoEmbedData data) {
