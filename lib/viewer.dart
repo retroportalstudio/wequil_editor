@@ -90,9 +90,9 @@ class _WequilEditorPreviewState extends State<WequilEditorPreview> {
 
     return QuillEditor(
       scrollController: _scrollController,
-
+    
       focusNode: _focusNode,
-
+    
       configurations: QuillEditorConfigurations(
         controller: _quillController!,
         autoFocus: true,

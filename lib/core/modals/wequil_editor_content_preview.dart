@@ -9,8 +9,8 @@ class WEquilEditorContentPreview {
 
   Map<String, dynamic> toMap() {
     return {
-      'content': this.content,
-      'isOriginal': this.isOriginal,
+      'content': content,
+      'isOriginal': isOriginal,
     };
   }
 

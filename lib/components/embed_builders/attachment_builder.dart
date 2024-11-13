@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
-import 'package:provider/provider.dart';
 import 'package:wequil_editor/core/core.dart';
-import 'package:wequil_editor/state/state.dart';
 
 class DefaultWEAttachmentEmbedBuilder extends quill.EmbedBuilder {
   final Widget Function(WECustomAttachmentData embedData, quill.Embed node,
@@ -46,7 +44,7 @@ class DefaultWEAttachmentEmbedBuilder extends quill.EmbedBuilder {
 class _DefaultImageBuilder extends StatelessWidget {
   final WECustomAttachmentData data;
 
-  const _DefaultImageBuilder({super.key, required this.data});
+  const _DefaultImageBuilder({required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +57,7 @@ class _DefaultImageBuilder extends StatelessWidget {
 class _DefaultVideoBuilder extends StatelessWidget {
   final WECustomAttachmentData data;
 
-  const _DefaultVideoBuilder({super.key, required this.data});
+  const _DefaultVideoBuilder({required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +73,7 @@ class _DefaultVideoBuilder extends StatelessWidget {
 class _DefaultDocumentBuilder extends StatelessWidget {
   final WECustomAttachmentData data;
 
-  const _DefaultDocumentBuilder({super.key, required this.data});
+  const _DefaultDocumentBuilder({required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +89,7 @@ class _DefaultDocumentBuilder extends StatelessWidget {
 class _DefaultAudioBuilder extends StatelessWidget {
   final WECustomAttachmentData data;
 
-  const _DefaultAudioBuilder({super.key, required this.data});
+  const _DefaultAudioBuilder({required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +105,7 @@ class _DefaultAudioBuilder extends StatelessWidget {
 class _DefaultOtherBuilder extends StatelessWidget {
   final WECustomAttachmentData data;
 
-  const _DefaultOtherBuilder({super.key, required this.data});
+  const _DefaultOtherBuilder({required this.data});
 
   @override
   Widget build(BuildContext context) {
