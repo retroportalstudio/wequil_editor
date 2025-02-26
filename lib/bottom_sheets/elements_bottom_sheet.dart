@@ -12,6 +12,7 @@ class WEElementsBottomSheet extends StatelessWidget {
   final Function()? onInsertHyperlink;
   final Function()? onInsertMedia;
   final Function()? onInsertVideoEmbed;
+  final Function()? onInsertVideoByLinkEmbed;
 
   const WEElementsBottomSheet(
       {super.key,
@@ -24,7 +25,8 @@ class WEElementsBottomSheet extends StatelessWidget {
       this.onInsertHyperlink,
       this.mediaButtonBuilder,
       this.onInsertMedia,
-      this.onInsertVideoEmbed});
+      this.onInsertVideoEmbed, 
+      this.onInsertVideoByLinkEmbed});
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +92,27 @@ class WEElementsBottomSheet extends StatelessWidget {
           mediaButtonBuilder == null
               ? mediaTile
               : mediaButtonBuilder?.call(mediaTile),
+          // const Divider(
+          //   height: 1,
+          // ),
+          // ListTile(
+          //   dense: true,
+          //   onTap: () {
+          //     Navigator.of(context).pop();
+          //     onInsertVideoByLinkEmbed?.call();
+          //   },
+          //   contentPadding: EdgeInsets.zero,
+          //   leading: Icon(Icons.video_library,
+          //       size: iconSize ?? defaultIconSize,
+          //       color: iconColor ?? Colors.black),
+          //   title: Text(
+          //     "Video Embed",
+          //     style: itemTextStyle ?? textTheme.bodyMedium,
+          //   ),
+          // ),
+          const SizedBox(
+            height: 10,
+          ),
           const Divider(
             height: 1,
           ),
