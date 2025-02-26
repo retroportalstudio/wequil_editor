@@ -1,10 +1,53 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:flutter/widgets.dart';
 import 'package:wequil_editor/core/core.dart';
+
+class VideoUrlValidator {
+  static final List<String> _videoExtensions = [
+    '.mp4',
+    '.avi',
+    '.mov',
+    '.wmv',
+    '.flv',
+    '.mkv',
+    '.webm',
+    '.m4v',
+    '.mpeg',
+    '.mpg',
+    '.3gp'
+  ];
+
+  static bool isValidVideoUrl(String url) {
+    Uri? uri;
+    try {
+      uri = Uri.parse(url);
+      if (!['http', 'https'].contains(uri.scheme)) {
+        return false;
+      }
+      
+      String path = uri.path.toLowerCase();
+      return _videoExtensions.any((ext) => path.endsWith(ext));
+      
+    } catch (e) {
+      return false;
+    }
+  }
+}
 
 class WEEditorHelperFunctions {
   static bool _isValidId(String id) =>
       RegExp(r'^[_\-a-zA-Z0-9]{11}$').hasMatch(id);
+
+bool handleVideoUrl(String url, BuildContext context) {
+  if (VideoUrlValidator.isValidVideoUrl(url)) {
+    print('Valid patform video URL');
+
+    return true;
+  } else {
+    return false;
+  }
+}
 
   static String? getYoutubeVideoIdFromUrl(String url) {
     const hosts = ['youtube.com', 'www.youtube.com', 'm.youtube.com'];
